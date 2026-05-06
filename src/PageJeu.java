@@ -7,7 +7,8 @@ public class PageJeu extends Livre{
     private ObjetJeu objet;
     private List<Enigme> enigmes;
 
-    public PageJeu(boolean sortie, ObjetJeu objet){
+    public PageJeu(int numero, boolean sortie, ObjetJeu objet){
+        super(numero);
         this.sortie = sortie;
         this.objet = objet;
     }
