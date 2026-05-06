@@ -14,7 +14,7 @@ public class ObjetJeu{
         return this.recupere;
     }
 
-    public void recuperer(){
+    public void recupererObjet(){
         this.recupere = true;
     }
 }
