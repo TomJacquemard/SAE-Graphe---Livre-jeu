@@ -1,8 +1,10 @@
 public class Page{
     protected int numero;
+    protected String contenu;
 
-    public Page(int numero){
+    public Page(int numero, String contenu){
         this.numero = numero;
+        this.contenu = contenu;
     }
 
     public int getNumero(){
@@ -10,6 +12,6 @@ public class Page{
     }
 
     public void lire(){
-        
+        System.out.println(this.contenu);
     }
 }
