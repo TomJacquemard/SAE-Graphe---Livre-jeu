@@ -40,9 +40,6 @@ public class PageJeu extends Page{
             return false;
         }
     }
-<<<<<<< HEAD
-
-=======
     
     public List<Enigme> getEnigmes(){
         return this.enigmes;
@@ -51,5 +48,5 @@ public class PageJeu extends Page{
     public void ajouteEnigme(Enigme enigme){
         this.enigmes.add(enigme);
     }
->>>>>>> main
+
 }
