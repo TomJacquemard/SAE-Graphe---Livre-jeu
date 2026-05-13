@@ -5,11 +5,13 @@ import java.util.ArrayList;
 public class LivreJeu extends Livre{
     private List<ObjetJeu> lesObjets;
     private List<ObjetJeu> objetsRecuperes;
+    private List<PageJeu> pages;
 
     public LivreJeu(String titre, int nbPages) {
         super(titre, nbPages);
         this.lesObjets = new ArrayList<>();
         this.objetsRecuperes = new ArrayList<>();
+        this.pages = new ArrayList<>();
     }
 
     public List<ObjetJeu> getListeObjets() {

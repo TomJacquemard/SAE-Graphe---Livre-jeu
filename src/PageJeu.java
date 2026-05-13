@@ -11,6 +11,12 @@ public class PageJeu extends Page{
         super(numero, contenu);
         this.sortie = sortie;
         this.objet = objet;
+        this.pageSuivantes = new ArrayList<>();
+        this.enigmes = new ArrayList<>();
+
+        //mettre algorithme de création ici pour remplir la liste des pageSuivantes et des enigmes
+        
+    
     }
 
     public List<Enigme> getEnigmes(){
