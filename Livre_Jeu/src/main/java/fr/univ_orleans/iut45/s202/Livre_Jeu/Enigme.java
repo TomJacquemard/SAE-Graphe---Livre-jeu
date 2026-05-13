@@ -1,3 +1,5 @@
+package fr.univ_orleans.iut45.s202.Livre_Jeu;
+
 public class Enigme {
     private String intitule;
     private double duree;
