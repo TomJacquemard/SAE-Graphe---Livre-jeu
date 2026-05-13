@@ -12,9 +12,6 @@ public class Livre{
         this.titre = titre;
         this.nbPages = nbPages;
         this.pages = new ArrayList<>();
-        for (int i=1; i<=nbPages; i++){
-            pages.add(new Page(i, "Lorem ipsum"));
-        }
     }
 
     public String getTitre(){
