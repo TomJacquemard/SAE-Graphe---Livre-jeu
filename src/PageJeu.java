@@ -11,18 +11,24 @@ public class PageJeu extends Page{
         super(numero, contenu);
         this.sortie = sortie;
         this.objet = objet;
-    }
-
-    public List<Enigme> getEnigmes(){
-        return enigmes;
-    }
-
-    public ObjetJeu getObjet(){
-        return objet;
+        this.pageSuivantes = new ArrayList<>();
+        this.enigmes = new ArrayList<>();
     }
 
     public boolean estSortie(){
         return sortie;
+    }
+    
+    public List<PageJeu> getPagesSuivantes(){
+        return this.pageSuivantes;
+    }
+
+    public void ajoutePage(PageJeu page){
+        this.pageSuivantes.add(page);
+    }
+
+    public ObjetJeu getObjet(){
+        return objet;
     }
 
     public boolean contientObjet(){
@@ -32,5 +38,13 @@ public class PageJeu extends Page{
         else{
             return false;
         }
+    }
+    
+    public List<Enigme> getEnigmes(){
+        return this.enigmes;
+    }
+
+    public void ajouteEnigme(Enigme enigme){
+        this.enigmes.add(enigme);
     }
 }
