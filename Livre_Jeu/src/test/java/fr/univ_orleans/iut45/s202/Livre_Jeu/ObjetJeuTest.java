@@ -1,6 +1,7 @@
 package fr.univ_orleans.iut45.s202.Livre_Jeu;
 
 import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 
 public class ObjetJeuTest {
