@@ -20,15 +20,24 @@ public class PageJeu extends Page{
     }
 
     public List<Enigme> getEnigmes(){
-        return enigmes;
+        return this.enigmes;
     }
 
     public ObjetJeu getObjet(){
-        return objet;
+        return this.objet;
+
     }
 
     public boolean estSortie(){
-        return sortie;
+        return this.sortie;
+    }
+    
+    public List<PageJeu> getPagesSuivantes(){
+        return this.pageSuivantes;
+    }
+
+    public void ajoutePage(PageJeu page){
+        this.pageSuivantes.add(page);
     }
 
     public boolean contientObjet(){
@@ -38,5 +47,9 @@ public class PageJeu extends Page{
         else{
             return false;
         }
+    }
+
+    public void ajouteEnigme(Enigme enigme){
+        this.enigmes.add(enigme);
     }
 }
