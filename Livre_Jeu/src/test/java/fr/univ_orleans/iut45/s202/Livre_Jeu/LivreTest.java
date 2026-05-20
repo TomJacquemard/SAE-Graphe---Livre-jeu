@@ -40,8 +40,6 @@ public class LivreTest {
 
     @Test
     public void testGetPageNum(){
-        System.out.println(this.listePage.get(0));
-        System.out.println(this.l.getPageNum(1));
         try {
             assertEquals(this.listePage.get(0), this.l.getPageNum(1));
         } catch (IndexOutOfBoundsException e) {
