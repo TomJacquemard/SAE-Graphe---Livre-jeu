@@ -16,6 +16,10 @@ public class LivreJeu extends Livre{
         this.pages = new ArrayList<>();
     }
 
+    public List<PageJeu> getListePageJeu() {
+        return this.pages;
+    }
+
     public List<ObjetJeu> getListeObjets() {
         return this.lesObjets;
     }

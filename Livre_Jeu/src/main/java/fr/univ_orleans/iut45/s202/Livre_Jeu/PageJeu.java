@@ -3,7 +3,7 @@ package fr.univ_orleans.iut45.s202.Livre_Jeu;
 import java.util.List;
 import java.util.ArrayList;
 
-public class PageJeu extends Page{
+public class PageJeu extends Page {
     private boolean sortie;
     private List<PageJeu> pageSuivantes;
     private ObjetJeu objet;
