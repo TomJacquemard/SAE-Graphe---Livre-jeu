@@ -7,9 +7,9 @@ import org.junit.Test;
 
 
 public class TestLivreJeu {
-     List<ObjetJeu> lesObjets = new ArrayList<>();
-     List<ObjetJeu> objetsRecuperes = new ArrayList<>();
-    
+    List<ObjetJeu> lesObjets = new ArrayList<>();
+    List<ObjetJeu> objetsRecuperes = new ArrayList<>();
+    List<PageJeu> pages = new ArrayList<>();
    
     
     LivreJeu lj = new LivreJeu("titre", 3);
@@ -21,11 +21,16 @@ public class TestLivreJeu {
 
     @Test
     public void getObjetsRecuperes(){
-        assertEquals(lesObjets, lj.getObjetsRecuperes());
+        assertEquals(objetsRecuperes, lj.getObjetsRecuperes());
     }
 
     @Test 
     public void recupererObjet(ObjetJeu object){
         assertEquals(objetsRecuperes, object.estRecupere());
+    }
+
+    @Test
+    public void getListePageJeu(){
+        assertEquals(pages, lj.getListePageJeu());
     }
     }
