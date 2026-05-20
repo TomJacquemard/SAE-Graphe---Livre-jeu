@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="2" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" time="0.002" errors="0" skipped="0">
+<testsuite tests="2" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" time="0" errors="0" skipped="0">
   <properties>
     <property name="jansi.mode" value="force"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
@@ -58,6 +58,6 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.endian" value="little"/>
   </properties>
-  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" name="testGetDifficultee" time="0.002"/>
+  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" name="testGetDifficultee" time="0"/>
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" name="testGetIntitule" time="0"/>
 </testsuite>

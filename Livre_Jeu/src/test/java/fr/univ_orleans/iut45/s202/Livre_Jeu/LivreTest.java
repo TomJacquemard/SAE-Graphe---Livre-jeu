@@ -27,6 +27,9 @@ public class LivreTest {
 
     @Test
     public void testGetPages(){
+        for (int i=1; i<=nbPages; i++){
+            this.l.getPageNum(i).modifierContenu("Lorem ipsum");
+        }
         assertEquals(this.listePage, this.l.getPages());
     }
 
@@ -38,8 +41,8 @@ public class LivreTest {
     @Test
     public void testGetPageNum(){
         try {
-            assertEquals(this.listePage.get(1), this.l.getPageNum(1));
-        } catch (Exception e) {
+            assertEquals(this.listePage.get(0), this.l.getPageNum(1));
+        } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
     }
