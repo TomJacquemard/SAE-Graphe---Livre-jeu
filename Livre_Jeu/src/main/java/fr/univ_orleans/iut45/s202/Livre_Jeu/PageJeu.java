@@ -3,8 +3,12 @@ package fr.univ_orleans.iut45.s202.Livre_Jeu;
 import java.util.List;
 import java.util.ArrayList;
 
+<<<<<<< HEAD
 
 public class PageJeu extends Page{
+=======
+public class PageJeu extends Page {
+>>>>>>> devTom
     private boolean sortie;
     private List<PageJeu> pageSuivantes;
     private ObjetJeu objet;
@@ -16,10 +20,23 @@ public class PageJeu extends Page{
         this.objet = objet;
         this.pageSuivantes = new ArrayList<>();
         this.enigmes = new ArrayList<>();
+
+        //mettre algorithme de création ici pour remplir la liste des pageSuivantes et des enigmes
+        
+    
+    }
+
+    public List<Enigme> getEnigmes(){
+        return this.enigmes;
+    }
+
+    public ObjetJeu getObjet(){
+        return this.objet;
+
     }
 
     public boolean estSortie(){
-        return sortie;
+        return this.sortie;
     }
     
     public List<PageJeu> getPagesSuivantes(){
@@ -30,10 +47,6 @@ public class PageJeu extends Page{
         this.pageSuivantes.add(page);
     }
 
-    public ObjetJeu getObjet(){
-        return objet;
-    }
-
     public boolean contientObjet(){
         if (this.objet != null){
             return true;
@@ -41,10 +54,6 @@ public class PageJeu extends Page{
         else{
             return false;
         }
-    }
-    
-    public List<Enigme> getEnigmes(){
-        return this.enigmes;
     }
 
     public void ajouteEnigme(Enigme enigme){
