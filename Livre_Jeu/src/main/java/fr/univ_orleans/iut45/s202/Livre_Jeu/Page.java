@@ -13,8 +13,9 @@ public class Page{
         return this.numero;
     }
 
-    public void lire(){
+    public String lire(){
         System.out.println(this.contenu);
+        return this.contenu;
     }
 
     @Override
