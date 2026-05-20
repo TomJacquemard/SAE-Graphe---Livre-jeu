@@ -3,7 +3,12 @@ package fr.univ_orleans.iut45.s202.Livre_Jeu;
 import java.util.List;
 import java.util.ArrayList;
 
+<<<<<<< HEAD
+
+public class PageJeu extends Page{
+=======
 public class PageJeu extends Page {
+>>>>>>> devTom
     private boolean sortie;
     private List<PageJeu> pageSuivantes;
     private ObjetJeu objet;
@@ -54,4 +59,5 @@ public class PageJeu extends Page {
     public void ajouteEnigme(Enigme enigme){
         this.enigmes.add(enigme);
     }
+
 }

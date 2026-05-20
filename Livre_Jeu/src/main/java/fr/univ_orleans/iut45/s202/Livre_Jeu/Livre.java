@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Livre{
+
     protected String titre;
     private List<Page> pages;
     protected int nbPages;
@@ -38,6 +39,7 @@ public class Livre{
         throw new IndexOutOfBoundsException("Page inexistante");
     }
 
+
     @Override
     public boolean equals(Object l){
         if (l == null){return false;}
@@ -51,4 +53,5 @@ public class Livre{
     public String toString(){
         return "Le livre '" + this.titre + "' avec " + this.nbPages + " pages : " + this.pages;
     }
+
 }
