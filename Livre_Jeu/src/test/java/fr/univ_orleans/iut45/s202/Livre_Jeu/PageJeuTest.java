@@ -19,8 +19,8 @@ public class PageJeuTest {
     ObjetJeu objet = new ObjetJeu("A");
     PageJeu pageJeuObjet = new PageJeu(1, contenu, false, objet); //page avec objet, n'est pas la sortie
 
-    Enigme enigme1 = new Enigme("Enigme 1", 2,2);// ENLEVER DIFFICULTE DANS ENIGME CAR duree=difficulte
-    Enigme enigme2 = new Enigme("Enigme 2", 4, 4);
+    Enigme enigme1 = new Enigme("Enigme 1", 2);// ENLEVER DIFFICULTE DANS ENIGME CAR duree=difficulte
+    Enigme enigme2 = new Enigme("Enigme 2", 4);
 
 
     @Test
