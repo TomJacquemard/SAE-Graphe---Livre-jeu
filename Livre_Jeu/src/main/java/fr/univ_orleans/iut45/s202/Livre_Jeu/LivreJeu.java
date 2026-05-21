@@ -37,7 +37,7 @@ public class LivreJeu extends Livre{
         }
     }
 
-    public void genererLivreCheminSur(PageJeu pageEntree, PageJeu pageSortie) {
+    public void genererLivreJeu2(PageJeu pageEntree, PageJeu pageSortie) {
         /*Vérifier si la liste contient bien la page d'entrée et de sortie en question */
         if (!this.pages.contains(pageEntree)|| !this.pages.contains(pageSortie) {
             throw new IllegalArgumentException("La page d'entrée ou de sortie n'appartient pas à ce livre");
