@@ -1,16 +1,13 @@
 package fr.univ_orleans.iut45.s202.Livre_Jeu;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 
 public class LivreJeu extends Livre{
@@ -112,7 +109,7 @@ public class LivreJeu extends Livre{
         return pagesSansSource;
     }
 
-    public List<PageJeu> getPagesJeu(){ //obligée de recréer plusieurs méthodes de livre en rapport avec les pages car je veux obtenir des PageJeu et avec les methodes de Livre j'obtenais des Pages
+    public List<PageJeu> getPagesJeu(){//obligée de recréer plusieurs méthodes de livre en rapport avec les pages car je veux obtenir des PageJeu et avec les methodes de Livre j'obtenais des Pages
         return this.lesPagesDuJeu;
     }
 
