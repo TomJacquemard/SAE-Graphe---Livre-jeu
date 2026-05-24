@@ -16,12 +16,19 @@ public class LivreJeu extends Livre{
     private List<PageJeu> lesPagesDuJeu;
     private Graph<PageJeu, DefaultWeightedEdge> graph;
 
-    public LivreJeu(String titre, int nbPages) {
+    public LivreJeu(String titre, int nbPages, String choixGenerateur) {
         super(titre, nbPages);
         this.lesObjets = new ArrayList<>();
         this.objetsRecuperes = new ArrayList<>();
         this.lesPagesDuJeu = new ArrayList<>();
         this.graph = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
+        PageJeu pageDeSortie = new PageJeu(nbPages,"Page fin", true, null);
+        PageJeu pageEntree = new PageJeu(1,"Page d'entrée", false, null);
+
+        if (choixGenerateur == "genererLivreJeu_1"){
+            genererLivreJeu_1(pageDeSortie, pageEntree);
+        }
+        remplirGraphe();
     }
 
 
@@ -88,7 +95,7 @@ public class LivreJeu extends Livre{
             List<Enigme> enigmes = pageCourante.getEnigmes();
             for(int i = 0; i<pagesSuivantes.size(); i ++){
                 DefaultWeightedEdge nouvelleEdge = this.graph.addEdge(pageCourante, pagesSuivantes.get(i));
-                
+        
                 this.graph.setEdgeWeight(nouvelleEdge,enigmes.get(i).getDuree()); //on attribut le poids a la nouvelle arrete
             }
         }
@@ -107,6 +114,10 @@ public class LivreJeu extends Livre{
             if(!(aUneSource)){pagesSansSource.add(pCourante);} //si je n'ai trouvé aucune source à la fin de mon parcours pour la page courante je l'ajoute aux pages sans source
         }
         return pagesSansSource;
+    }
+
+    public Graph<PageJeu, DefaultWeightedEdge> getGraphe(){
+        return this.graph;
     }
 
     public List<PageJeu> getPagesJeu(){//obligée de recréer plusieurs méthodes de livre en rapport avec les pages car je veux obtenir des PageJeu et avec les methodes de Livre j'obtenais des Pages
