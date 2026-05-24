@@ -27,6 +27,13 @@ public class LivreJeu extends Livre{
         PageJeu pageDeSortie = new PageJeu(nbPages,"Page fin", true, null);
         PageJeu pageEntree = new PageJeu(1,"Page d'entrée", false, null);
 
+        this.lesPagesDuJeu.add(pageEntree);
+        this.lesPagesDuJeu.add(pageDeSortie);
+
+        for (int i = 2; i<nbPages; i++){
+            this.lesPagesDuJeu.add(new PageJeu(i, "Lorem ipsum", false, null));
+        }
+
         if (choixGenerateur == "genererLivreJeu_1"){
             genererLivreJeu_1(pageDeSortie, pageEntree);
         }
