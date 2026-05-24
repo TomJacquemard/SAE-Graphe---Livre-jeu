@@ -13,8 +13,10 @@ import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 public class LivreJeu extends Livre{
     private List<ObjetJeu> lesObjets;
     private List<ObjetJeu> objetsRecuperes;
+
     private List<PageJeu> lesPagesDuJeu;
     private Graph<PageJeu, DefaultWeightedEdge> graph;
+
 
     public LivreJeu(String titre, int nbPages, String choixGenerateur) {
         super(titre, nbPages);
@@ -53,7 +55,7 @@ public class LivreJeu extends Livre{
             for(PageJeu p : pagesChoisies){
                 pageEnPlacement.ajoutePage(p); //on ajoute la page voisine aux pagesSuivantes de pageEnPlacement
                 int dureeEngime = 1+random.nextInt(20); //Choix aléatoire de la durée de l'Enigme menant à la page voisine p
-                pageEnPlacement.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEngime, dureeEngime)); //création et ajout de l'énigme en parallèle de l'ajout de la page
+                pageEnPlacement.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEngime)); //création et ajout de l'énigme en parallèle de l'ajout de la page
             }
             pagesValides.add(pageEnPlacement);
             //A la fin de la boucle while, toutes les pages seront placées, sauf la page d'entrée
@@ -64,7 +66,7 @@ public class LivreJeu extends Livre{
             for (PageJeu pIsolee : pagesIsolees){ //on relie la page d'entrée à ces pages
                 pageEntree.ajoutePage(pIsolee);
                 int dureeEngime = 1+random.nextInt(20); //Choix aléatoire de la durée de l'Enigme 
-                pageEntree.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEngime, dureeEngime)); //création et ajout de l'énigme
+                pageEntree.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEngime)); //création et ajout de l'énigme
             }
         }
         else{ //sinon je relie la page d'entrée à quelques pages
@@ -73,7 +75,7 @@ public class LivreJeu extends Livre{
             for(PageJeu p : pagesChoisies){
                 pageEntree.ajoutePage(p); 
                 int dureeEngime = 1+random.nextInt(20); 
-                pageEntree.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEngime, dureeEngime)); //création et ajout de l'énigme en parallèle de l'ajout de la page
+                pageEntree.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEngime)); //création et ajout de l'énigme en parallèle de l'ajout de la page
             }
         }
 
@@ -83,7 +85,7 @@ public class LivreJeu extends Livre{
         for(PageJeu p : pagesChoisies){
             p.ajoutePage(pageEntree); 
             int dureeEngime = 1+random.nextInt(20); 
-            p.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEngime, dureeEngime));
+            p.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEngime));
             }
     }
 
@@ -96,7 +98,7 @@ public class LivreJeu extends Livre{
             for(int i = 0; i<pagesSuivantes.size(); i ++){
                 DefaultWeightedEdge nouvelleEdge = this.graph.addEdge(pageCourante, pagesSuivantes.get(i));
         
-                this.graph.setEdgeWeight(nouvelleEdge,enigmes.get(i).getDuree()); //on attribut le poids a la nouvelle arrete
+                this.graph.setEdgeWeight(nouvelleEdge,enigmes.get(i).getDifficultee()); //on attribut le poids a la nouvelle arrete
             }
         }
     }
@@ -131,6 +133,7 @@ public class LivreJeu extends Livre{
             }
         }
         throw new IndexOutOfBoundsException("Page inexistante");
+
     }
 
     public List<ObjetJeu> getListeObjets() {

@@ -13,7 +13,26 @@ public class Page{
         return this.numero;
     }
 
-    public void lire(){
+    public String lire(){
         System.out.println(this.contenu);
+        return this.contenu;
+    }
+
+    public void modifierContenu(String newC){
+        this.contenu = newC;
+    }
+
+    @Override
+    public boolean equals(Object p){
+        if (p == null){return false;}
+        if (this == p){return true;}
+        if (!(p instanceof Page)){return false;}
+        Page tmp = (Page) p;
+        return this.numero == tmp.numero && this.contenu.equals(tmp.contenu);
+    }
+
+    @Override
+    public String toString(){
+        return "La page de numéro : " + this.numero + " avec comme contenu : " + this.contenu;
     }
 }

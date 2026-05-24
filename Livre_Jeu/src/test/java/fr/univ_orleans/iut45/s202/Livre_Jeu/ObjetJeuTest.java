@@ -5,7 +5,7 @@ import org.junit.Test;
 
 
 public class ObjetJeuTest {
-    ObjetJeu objet = new ObjetJeu("Ballon",false);
+    ObjetJeu objet = new ObjetJeu("Ballon");
 
     @Test
     public void testGetNom() {
@@ -19,7 +19,9 @@ public class ObjetJeuTest {
 
     @Test 
     public void testRecupereObjet() {
-        assertEquals(true, objet.recupererObjet());
+        assertEquals(false, objet.estRecupere());
+        objet.recupererObjet();
+        assertEquals(true, objet.estRecupere());
     }
 
 
