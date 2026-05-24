@@ -19,14 +19,15 @@ public class TestLivreJeu {
     List<PageJeu> pages = new ArrayList<>();
    
     
-    LivreJeu lj = new LivreJeu("titre", 15, "genererLivreJeu_1");
+    LivreJeu lj = new LivreJeu("titre", 8, "genererLivreJeu_1");
 
     @Test
     public void generationLivreJeu1() throws IOException{
          DOTExporter<PageJeu,DefaultWeightedEdge> exporter = new DOTExporter<>();
          exporter.setVertexAttributeProvider((x) -> Map.of("label", new DefaultAttribute<>(x, AttributeType.STRING)));
 		 exporter.exportGraph(lj.getGraphe(), new FileWriter("graph.dot"));
-
+        //une fois qu'on obtient le fichier .dot exécuter cette commande comme en tp de graphes pour convertir en pdf
+        //dot -Tpdf graph.dot -o graph.pdf
     }
     
     // @Test

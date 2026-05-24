@@ -69,11 +69,13 @@ public class LivreJeu extends Livre{
         }
 
         List<PageJeu> pagesIsolees = this.pagesSansSource();
-        if (pagesIsolees.size()>0){ //si il y des pages isolées...
+        if (pagesIsolees.size()>1){ //si il y des pages isolées... >1 car la page d'entrée est pour le moment FORCEMENT isolée
             for (PageJeu pIsolee : pagesIsolees){ //on relie la page d'entrée à ces pages
-                pageEntree.ajoutePage(pIsolee);
-                int dureeEngime = 1+random.nextInt(20); //Choix aléatoire de la durée de l'Enigme 
-                pageEntree.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEngime)); //création et ajout de l'énigme
+                if(!(pIsolee.equals(pageEntree))){
+                    pageEntree.ajoutePage(pIsolee);
+                    int dureeEngime = 1+random.nextInt(20); //Choix aléatoire de la durée de l'Enigme 
+                    pageEntree.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEngime)); //création et ajout de l'énigme
+                }
             }
         }
         else{ //sinon je relie la page d'entrée à quelques pages
@@ -100,6 +102,9 @@ public class LivreJeu extends Livre{
         //On rempli les vertex et edge selon la liste lesPagesDuJeu
         for(PageJeu pageCourante : lesPagesDuJeu){
             this.graph.addVertex(pageCourante);
+        }
+        
+        for(PageJeu pageCourante : lesPagesDuJeu){ //obligé de parcourir en deux temps : car addVertex(pageA,pageB) nécessite deux pages déjà dans le graphe
             List<PageJeu> pagesSuivantes = pageCourante.getPagesSuivantes();
             List<Enigme> enigmes = pageCourante.getEnigmes();
             for(int i = 0; i<pagesSuivantes.size(); i ++){
