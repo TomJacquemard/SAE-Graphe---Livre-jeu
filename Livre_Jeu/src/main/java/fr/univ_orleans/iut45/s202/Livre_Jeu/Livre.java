@@ -13,17 +13,12 @@ public class Livre{
     public Livre(String titre, int nbPages){
         this.titre = titre;
         this.nbPages = nbPages;
-        this.pages = new ArrayList<>();
-        for (int i=1; i<=nbPages; i++){
-            this.pages.add(new Page(i, "Lorem ipsum"));
-        }
 
         //this.pages = new ArrayList<>();
         //for (int i=1; i<=nbPages; i++){
             //pages.add(new Page(i, "Lorem ipsum"));
         //}
     }
-
     public String getTitre(){
         return this.titre;
     }
@@ -67,5 +62,19 @@ public class Livre{
             //}
         //}
         //throw new IndexOutOfBoundsException("Page inexistante");
+    //}
+
+    //@Override
+    //public boolean equals(Object l){
+      //  if (l == null){return false;}
+        //if (this == l){return true;}
+        //if (!(l instanceof Page)){return false;}
+        //Livre tmp = (Livre) l;
+        //return this.titre == tmp.titre && this.nbPages == tmp.nbPages && this.pages.equals(tmp.pages);
+    //}
+
+    //@Override
+    //public String toString(){
+      //  return "Le livre '" + this.titre + "' avec " + this.nbPages + " pages : " + this.pages;
     //}
 }
