@@ -52,6 +52,10 @@ public class PageJeu extends Page {
         }
     }
 
+    public void setObjet(ObjetJeu ob){
+        this.objet=ob;
+    }
+
     public void ajouteEnigme(Enigme enigme){
         this.enigmes.add(enigme);
     }

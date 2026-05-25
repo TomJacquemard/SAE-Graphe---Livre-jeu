@@ -9,6 +9,8 @@ import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
+//To do :
+//Gérer les cas où on veut générer un graphe trop petit
 
 public class LivreJeu extends Livre{
     private List<ObjetJeu> lesObjets;
@@ -18,7 +20,7 @@ public class LivreJeu extends Livre{
     private Graph<PageJeu, DefaultWeightedEdge> graph;
 
 
-    public LivreJeu(String titre, int nbPages, String choixGenerateur) {
+    public LivreJeu(String titre, int nbPages, String choixGenerateur,int nbObjets) {
         super(titre, nbPages);
         this.lesObjets = new ArrayList<>();
         this.objetsRecuperes = new ArrayList<>();
@@ -30,14 +32,33 @@ public class LivreJeu extends Livre{
         this.lesPagesDuJeu.add(pageEntree);
         this.lesPagesDuJeu.add(pageDeSortie);
 
-        for (int i = 2; i<nbPages; i++){
+        for (int i = 2; i<nbPages; i++){ //création des pages + objets
             this.lesPagesDuJeu.add(new PageJeu(i, "Lorem ipsum", false, null));
+        }
+        
+        Random random = new Random();
+        for(int i = 0; i<nbObjets;i++){
+            ObjetJeu objetCourant = new ObjetJeu("Objet " + i); //création de l'objet que l'on ajoute sur la page
+
+            boolean indiceOk = false;
+
+            while(!(indiceOk)){ //tant que je n'ai pas sélectionné une page ne contenant pas déjà un objet...
+                int indiceAleatoire = random.nextInt(lesPagesDuJeu.size());
+                PageJeu pageChoisie = lesPagesDuJeu.get(indiceAleatoire);
+
+                if(!(pageChoisie.contientObjet())){
+                    pageChoisie.setObjet(objetCourant);
+                    this.lesObjets.add(objetCourant);
+                    indiceOk = true;
+                }
+            }
+
         }
 
         if (choixGenerateur == "genererLivreJeu_1"){
-            genererLivreJeu_1(pageDeSortie, pageEntree);
+            genererLivreJeu_1(pageDeSortie, pageEntree); //génération des liens entre les pages (pageSuivantes) + enigmes
         }
-        remplirGraphe();
+        remplirGraphe(); //retranscription des liens entre les pages dans le graphe avec les addVertex et addEdge
     }
 
 
@@ -55,7 +76,7 @@ public class LivreJeu extends Livre{
             PageJeu pageEnPlacement = pagesAPlacer.remove(0);
             Collections.shuffle(pagesValides); //je mélange la liste à chaque fois pour plus de hasard sur les liens entre les arrêtes
             
-            //Prblm ici, une page pourrait être reliée à énormément d'autres si on tombe pile sur pagesValides
+            //Une page pourrait être reliée à énormément d'autres si on tombe pile sur pagesValides
             int nbPagesChoisies = 1 + random.nextInt(pagesValides.size()); //choisira un nb de pages entre 1 et pagesValide.size() (+1 pour éviter d'obtenir 0)
             List<PageJeu> pagesChoisies = pagesValides.subList(0, nbPagesChoisies); //on sélectionne les pages vers lesquelles la pageEnPlacement va mener
 

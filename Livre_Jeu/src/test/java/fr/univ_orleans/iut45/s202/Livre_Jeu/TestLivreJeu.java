@@ -19,7 +19,7 @@ public class TestLivreJeu {
     List<PageJeu> pages = new ArrayList<>();
    
     
-    LivreJeu lj = new LivreJeu("titre", 8, "genererLivreJeu_1");
+    LivreJeu lj = new LivreJeu("titre", 8, "genererLivreJeu_1",4);
 
     @Test
     public void generationLivreJeu1() throws IOException{
