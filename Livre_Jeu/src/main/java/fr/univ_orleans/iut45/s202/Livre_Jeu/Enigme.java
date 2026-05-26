@@ -11,6 +11,12 @@ public class Enigme {
         this.difficultee = difficultee;
     }
 
+    public Enigme(String intitule, double duree){
+        this.intitule = intitule;
+        this.duree = duree;
+    }
+
+
     public double getDuree(){
         return this.duree;
     }

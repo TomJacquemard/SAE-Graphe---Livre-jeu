@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.HashSet;
 
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -33,7 +35,7 @@ public class LivreJeu extends Livre{
             this.lesPagesDuJeu.add(new PageJeu(i, "Lorem ipsum", false, null));
         }
 
-        if (choixGenerateur == "genererLivreJeu_1"){
+        if (choixGenerateur.equals("genererLivreJeu_1")){
             genererLivreJeu_1(pageDeSortie, pageEntree);
         }
         remplirGraphe();
@@ -96,6 +98,46 @@ public class LivreJeu extends Livre{
             p.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEngime));
             }
     }
+
+    public List<PageJeu> rechercheSolutionGloutonne() {
+            if (meilleurChemin.isEmpty()
+                    || calculTemps(cheminActuel) < calculTemps(meilleurChemin)) {
+
+                meilleurChemin.clear();
+                meilleurChemin.addAll(new ArrayList<>(cheminActuel));
+            }
+        }
+
+        for (PageJeu suivante : page.getPagesSuivantes()) {
+
+            if (!visitees.contains(suivante)) {
+
+                explorer(
+                        suivante,
+                        cheminActuel,
+                        meilleurChemin,
+                        new HashSet<>(objets),
+                        new HashSet<>(visitees)
+                );
+            }
+        }
+
+        cheminActuel.remove(cheminActuel.size() - 1);
+
+    private double calculTemps(List<PageJeu> chemin) {
+
+        double temps = 0;
+
+        for (PageJeu page : chemin) {
+
+            for (Enigme e : page.getEnigmes()) {
+                temps += e.getDuree();
+            }
+        }
+
+        return temps;
+    }
+
 
     public void remplirGraphe(){
         //On rempli les vertex et edge selon la liste lesPagesDuJeu
