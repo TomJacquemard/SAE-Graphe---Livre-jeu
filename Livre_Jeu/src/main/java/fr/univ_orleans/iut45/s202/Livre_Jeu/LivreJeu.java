@@ -67,10 +67,11 @@ public class LivreJeu extends Livre {
         PageJeu pageEntree = new PageJeu(1, "Page d'entrée", false);
 
         this.lesPagesDuJeu.add(pageEntree);
+         this.lesPagesDuJeu.add(pageDeSortie);
         for (int i = 2; i<nbPages; i++){ //création des pages + objets
             this.lesPagesDuJeu.add(new PageJeu(i, "Lorem ipsum", false));
         }
-        this.lesPagesDuJeu.add(pageDeSortie);
+       
 
         
         Random random = new Random();
@@ -83,7 +84,7 @@ public class LivreJeu extends Livre {
                 int indiceAleatoire = random.nextInt(lesPagesDuJeu.size());
                 PageJeu pageChoisie = lesPagesDuJeu.get(indiceAleatoire);
 
-                if(!(pageChoisie.contientObjet())){
+                if(!(pageChoisie.contientObjet())){ 
                     pageChoisie.setObjet(objetCourant);
                     this.lesObjets.add(objetCourant);
                     System.out.println("[GENERATOR] Objet '" + objetCourant.getNom() + "' placé secrètement sur la Page n°" + pageChoisie.getNumero());
@@ -118,7 +119,7 @@ public class LivreJeu extends Livre {
         Random random = new Random();
         // -----------------------------------------------------
 
-        while (!pagesAPlacer.isEmpty()) {  //tant qu'il reste des pages à placer
+        while (!(pagesAPlacer.isEmpty())) {  //tant qu'il reste des pages à placer
             PageJeu pageEnPlacement = pagesAPlacer.remove(0);
             Collections.shuffle(pagesValides); //mélange de la liste à chaque fois pour plus de hasard sur les arrêtes
             
@@ -128,13 +129,10 @@ public class LivreJeu extends Livre {
 
             for (PageJeu p : pagesChoisies) {
                 pageEnPlacement.ajoutePage(p); //on ajoute la page voisine aux pagesSuivantes de pageEnPlacement
-                
                 int dureeEnigme = 1 + random.nextInt(20);//Choix aléatoire de la durée de l'Enigme menant à la page voisine p
                 Enigme e = new Enigme("Lorem Ipsum", dureeEnigme);//création et ajout de l'énigme 
                 pageEnPlacement.ajouteEnigme(e);
                 
-                //DefaultWeightedEdge edge = this.graph.addEdge(pageEnPlacement, p);
-                //this.graph.setEdgeWeight(edge, difficulte); 
             }
             pagesValides.add(pageEnPlacement);
             //A la fin de la boucle while, toutes les pages seront placées, sauf la page d'entrée
@@ -146,11 +144,7 @@ public class LivreJeu extends Livre {
                 if (!pIsolee.equals(pageEntree)) {
                     pageEntree.ajoutePage(pIsolee);
                     int dureeEnigme = 1 + random.nextInt(20);//Choix aléatoire de la durée de l'Enigme 
-                    int difficulte = 1 + random.nextInt(5);
                     pageEntree.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEnigme));//création et ajout de l'énigme
-                    
-                    DefaultWeightedEdge edge = this.graph.addEdge(pageEntree, pIsolee);
-                    this.graph.setEdgeWeight(edge, difficulte);
                 }
             }
         } else { //sinon je relie la page d'entrée à quelques pages
@@ -159,11 +153,7 @@ public class LivreJeu extends Livre {
             for (PageJeu p : pagesChoisies) {
                 pageEntree.ajoutePage(p);
                 int dureeEnigme = 1 + random.nextInt(20);
-                int difficulte = 1 + random.nextInt(5);
                 pageEntree.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEnigme));
-                
-                DefaultWeightedEdge edge = this.graph.addEdge(pageEntree, p);
-                this.graph.setEdgeWeight(edge, difficulte);
             }
         }
 
@@ -174,11 +164,7 @@ public class LivreJeu extends Livre {
             if (!p.equals(pageEntree)) {
                 p.ajoutePage(pageEntree);
                 int dureeEnigme = 1 + random.nextInt(20);
-                int difficulte = 1 + random.nextInt(5);
                 p.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEnigme));
-                
-                DefaultWeightedEdge edge = this.graph.addEdge(p, pageEntree);
-                this.graph.setEdgeWeight(edge, difficulte);
             }
         }
     }

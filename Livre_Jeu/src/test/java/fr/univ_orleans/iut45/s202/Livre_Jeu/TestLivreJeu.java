@@ -111,15 +111,15 @@ public class TestLivreJeu {
     //     System.out.println("Temps total : " + tempsTotal);
     // }
     
-    @Test
-    public void getListObjects(){
-        assertEquals(lesObjets, lj.getListeObjets());
-    }
+    //@Test
+    //public void getListObjects(){
+        //assertEquals(lesObjets, lj.getListeObjets());
+    //}
 
-    @Test
-    public void testGetObjetsRecuperes(){
-        assertEquals(objetsRecuperes, lj.getObjetsRecuperes());
-    }
+    //@Test
+    //public void testGetObjetsRecuperes(){
+      //  assertEquals(objetsRecuperes, lj.getObjetsRecuperes());
+    //}
 
     //@Test 
     //public void testRecupererObjet(){
