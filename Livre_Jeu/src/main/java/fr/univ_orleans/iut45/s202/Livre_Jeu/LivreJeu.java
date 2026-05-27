@@ -43,7 +43,13 @@ public class LivreJeu extends Livre {
     private List<ObjetJeu> lesObjets;
     private List<ObjetJeu> objetsRecuperes;
     private List<PageJeu> lesPagesDuJeu;
-    private Graph<PageJeu, DefaultWeightedEdge> graph;
+    private Graph<PageJeu, DefaultWeightedEdge> graph; 
+
+    /**
+     * 
+     * 
+     * 
+     */
 
     /**
      * CONSTRUCTEUR : Initialisation et configuration du livre-jeu.
@@ -116,7 +122,7 @@ public class LivreJeu extends Livre {
                 ObjetJeu obj = this.lesObjets.get(i);
                 
                 // On lie l'objet à la page (Adapte le nom de la méthode selon ta classe PageJeu, ex: setObjet(obj))
-                pageCible.ajouteObjet(obj); 
+                pageCible.setObjet(obj); 
                 System.out.println("[GENERATOR] Objet '" + obj.getNom() + "' placé secrètement sur la Page n°" + pageCible.getNumero());
             }
         }
@@ -204,6 +210,9 @@ public class LivreJeu extends Livre {
     /**
      * GETTER : Accès à la modélisation sous forme de graphe.
      * @return L'objet Graph (JGraphT) représentant l'ossature du livre-jeu.
+     * 
+     * 
+     * 
      */
     public Graph<PageJeu, DefaultWeightedEdge> getGraphe() {
         return this.graph;
@@ -772,7 +781,7 @@ for (PageJeu p : this.lesPagesDuJeu) {
                 layout.execute(graphAdapter.getDefaultParent());
 
                 BufferedImage img = com.mxgraph.util.mxCellRenderer.createBufferedImage(
-                        graphAdapter, null, 1.5, Color.WHITE, true, null);
+                        graphAdapter, null, 1.5, null, true, null);
                 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ImageIO.write(img, "png", baos);
@@ -788,7 +797,7 @@ for (PageJeu p : this.lesPagesDuJeu) {
             document.add(new Paragraph("\n\n"));
 
             // 3. TABLEAU DE SYNTHÈSE ET COMPARATIF DES ALGOS
-            document.add(new Paragraph("2. Tableau comparatif des approches algorithmiques", fontSection));
+            document.add(new Paragraph("2. Résultats", fontSection));
             document.add(new Paragraph("\n"));
 
             // Tableau à 5 colonnes pour plus de précision
