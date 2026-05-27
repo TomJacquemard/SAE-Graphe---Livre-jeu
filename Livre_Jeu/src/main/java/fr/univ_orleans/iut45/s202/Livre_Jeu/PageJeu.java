@@ -6,8 +6,10 @@ import java.util.ArrayList;
 public class PageJeu extends Page {
 
     private boolean sortie;
+    // Liste des pages directement accessibles depuis cette page
     private List<PageJeu> pageSuivantes;
     private ObjetJeu objet;
+    // Liste des énigmes associées à chaque transition (même index que pageSuivantes)
     private List<Enigme> enigmes;
 
     public PageJeu(int numero, String contenu, boolean sortie, ObjetJeu objet){
@@ -16,10 +18,6 @@ public class PageJeu extends Page {
         this.objet = objet;
         this.pageSuivantes = new ArrayList<>();
         this.enigmes = new ArrayList<>();
-
-        //mettre algorithme de création ici pour remplir la liste des pageSuivantes et des enigmes
-        
-    
     }
 
     public List<Enigme> getEnigmes(){
@@ -28,7 +26,6 @@ public class PageJeu extends Page {
 
     public ObjetJeu getObjet(){
         return this.objet;
-
     }
 
     public boolean estSortie(){
@@ -39,21 +36,17 @@ public class PageJeu extends Page {
         return this.pageSuivantes;
     }
 
+    // Ajoute une page cible à la liste des destinations possibles
     public void ajoutePage(PageJeu page){
         this.pageSuivantes.add(page);
     }
 
     public boolean contientObjet(){
-        if (this.objet != null){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return this.objet != null;
     }
 
+    // Ajoute l'énigme requise pour valider la transition
     public void ajouteEnigme(Enigme enigme){
         this.enigmes.add(enigme);
     }
-
 }

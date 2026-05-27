@@ -93,7 +93,7 @@ public class TestLivreJeu {
                 livre.rechercheSolutionComplete();
 
         afficherSolution(solutionComplete);
-    }
+    
 
     public static void afficherSolution(List<PageJeu> solution) {
 
@@ -108,7 +108,7 @@ public class TestLivreJeu {
 
             System.out.print(page.getNumero() + " ");
 
-            tempsTotal += page.getEnigme()
+            tempsTotal += page.getEnigmes()
                     .getTempsResolution();
         }
 
