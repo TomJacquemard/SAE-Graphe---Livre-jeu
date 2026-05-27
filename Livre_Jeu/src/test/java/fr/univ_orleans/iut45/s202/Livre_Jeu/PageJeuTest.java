@@ -10,14 +10,14 @@ import org.junit.Test;
 public class PageJeuTest {
 
     String contenu = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-    PageJeu pageJeu1 = new PageJeu(1, contenu, false, null); //pages sans objet, n'est pas la sortie
-    PageJeu pageJeu2 = new PageJeu(2, contenu, false, null);
-    PageJeu pageJeu3 = new PageJeu(3, contenu, false, null);
+    PageJeu pageJeu1 = new PageJeu(1, contenu, false); //pages sans objet, n'est pas la sortie
+    PageJeu pageJeu2 = new PageJeu(2, contenu, false);
+    PageJeu pageJeu3 = new PageJeu(3, contenu, false);
 
-    PageJeu pageJeuSortie =  new PageJeu(3, contenu, true, null);//page sortie
+    PageJeu pageJeuSortie =  new PageJeu(3, contenu, true);//page sortie
 
     ObjetJeu objet = new ObjetJeu("A");
-    PageJeu pageJeuObjet = new PageJeu(1, contenu, false, objet); //page avec objet, n'est pas la sortie
+    PageJeu pageJeuObjet = new PageJeu(1, contenu, false); //page avec objet, n'est pas la sortie
 
     Enigme enigme1 = new Enigme("Enigme 1", 2);// ENLEVER DIFFICULTE DANS ENIGME CAR duree=difficulte
     Enigme enigme2 = new Enigme("Enigme 2", 4);
@@ -55,11 +55,13 @@ public class PageJeuTest {
 
     @Test
     public void testContientObjet(){
+        pageJeuObjet.setObjet(objet);
         assertEquals(pageJeuObjet.contientObjet(), true);
     }
 
     @Test
     public void testGetObjet(){
+        pageJeuObjet.setObjet(objet);
         assertEquals(pageJeuObjet.getObjet(), objet);
     }
 

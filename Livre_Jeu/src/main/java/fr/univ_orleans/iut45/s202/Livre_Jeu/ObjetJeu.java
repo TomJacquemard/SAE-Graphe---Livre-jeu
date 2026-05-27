@@ -19,4 +19,9 @@ public class ObjetJeu{
     public void recupererObjet(){
         this.recupere = true;
     }
+
+    @Override
+    public String toString(){
+        return this.nom;
+    }
 }
