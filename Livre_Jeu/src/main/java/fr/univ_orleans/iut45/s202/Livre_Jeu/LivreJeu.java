@@ -46,12 +46,6 @@ public class LivreJeu extends Livre {
     private Graph<PageJeu, DefaultWeightedEdge> graph; 
 
     /**
-     * 
-     * 
-     * 
-     */
-
-    /**
      * CONSTRUCTEUR : Initialisation et configuration du livre-jeu.
      * @param titre
      * Le titre principal attribué à l'œuvre.
