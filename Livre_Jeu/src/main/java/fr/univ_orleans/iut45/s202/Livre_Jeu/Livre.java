@@ -11,6 +11,7 @@ public class Livre {
 
     public Livre(String titre, int nbPages){
         this.titre = titre;
+        this.nbPages=nbPages;
         
     }
     

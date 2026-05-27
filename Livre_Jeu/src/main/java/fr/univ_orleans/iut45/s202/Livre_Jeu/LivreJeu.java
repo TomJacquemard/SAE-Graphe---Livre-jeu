@@ -212,7 +212,7 @@ public class LivreJeu extends Livre {
             for(int i = 0; i<pagesSuivantes.size(); i ++){
                 DefaultWeightedEdge nouvelleEdge = this.graph.addEdge(pageCourante, pagesSuivantes.get(i));
         
-                this.graph.setEdgeWeight(nouvelleEdge,enigmes.get(i).getDifficultee()); //on attribut le poids a la nouvelle arrete
+                this.graph.setEdgeWeight(nouvelleEdge,enigmes.get(i).getDuree()); //on attribut le poids a la nouvelle arrete
             }
         }
     }
@@ -619,7 +619,7 @@ for (PageJeu p : this.lesPagesDuJeu) {
                 resultat = resultat + "     * Vers Page n°" + suiv.getNumero()
                         + " | Énigme: '" + enigme.getIntitule()
                         + "' | Durée: " + enigme.getDuree() + "s"
-                        + " | Difficulté: " + enigme.getDifficultee() + "/5\n";
+                        + " | Difficulté: " + enigme.getDuree() + "/5\n";
             }
             resultat = resultat + "--------------------------------------------------\n";
         }

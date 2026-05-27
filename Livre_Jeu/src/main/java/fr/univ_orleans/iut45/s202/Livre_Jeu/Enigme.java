@@ -3,7 +3,6 @@ package fr.univ_orleans.iut45.s202.Livre_Jeu;
 public class Enigme {
     private String intitule;
     private double duree;
-    private int difficultee;
 
     public Enigme(String intitule, double duree){
         this.intitule = intitule;
@@ -15,9 +14,6 @@ public class Enigme {
         return this.duree;
     }
 
-    public int getDifficultee(){
-        return this.difficultee;
-    }
 
     public String getIntitule(){
         return this.intitule;
