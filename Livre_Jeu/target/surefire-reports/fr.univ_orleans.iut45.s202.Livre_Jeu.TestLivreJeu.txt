@@ -1,10 +1,10 @@
 -------------------------------------------------------------------------------
 Test set: fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 0.02 sec <<< FAILURE!
-testGetPagesJeu(fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu)  Time elapsed: 0.001 sec  <<< ERROR!
+Tests run: 4, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 0.058 sec <<< FAILURE!
+testGetPagesJeu(fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu)  Time elapsed: 0.024 sec  <<< ERROR!
 java.lang.IllegalArgumentException: no such vertex in graph: La page de numéro : 2 avec comme contenu : Lorem ipsum
- Objet :Objet 3
+ Objet :null
 	at org.jgrapht.graph.AbstractGraph.assertVertexExist(AbstractGraph.java:130)
 	at org.jgrapht.graph.AbstractBaseGraph.addEdge(AbstractBaseGraph.java:225)
 	at fr.univ_orleans.iut45.s202.Livre_Jeu.LivreJeu.genererLivreJeu_1(LivreJeu.java:137)
@@ -38,7 +38,7 @@ java.lang.IllegalArgumentException: no such vertex in graph: La page de numéro 
 
 getListObjects(fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu)  Time elapsed: 0 sec  <<< ERROR!
 java.lang.IllegalArgumentException: no such vertex in graph: La page de numéro : 2 avec comme contenu : Lorem ipsum
- Objet :Objet 0
+ Objet :Objet 1
 	at org.jgrapht.graph.AbstractGraph.assertVertexExist(AbstractGraph.java:130)
 	at org.jgrapht.graph.AbstractBaseGraph.addEdge(AbstractBaseGraph.java:225)
 	at fr.univ_orleans.iut45.s202.Livre_Jeu.LivreJeu.genererLivreJeu_1(LivreJeu.java:137)
@@ -70,9 +70,9 @@ java.lang.IllegalArgumentException: no such vertex in graph: La page de numéro 
 	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
 
-testGetObjetsRecuperes(fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu)  Time elapsed: 0.001 sec  <<< ERROR!
+testGetObjetsRecuperes(fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu)  Time elapsed: 0 sec  <<< ERROR!
 java.lang.IllegalArgumentException: no such vertex in graph: La page de numéro : 2 avec comme contenu : Lorem ipsum
- Objet :Objet 2
+ Objet :null
 	at org.jgrapht.graph.AbstractGraph.assertVertexExist(AbstractGraph.java:130)
 	at org.jgrapht.graph.AbstractBaseGraph.addEdge(AbstractBaseGraph.java:225)
 	at fr.univ_orleans.iut45.s202.Livre_Jeu.LivreJeu.genererLivreJeu_1(LivreJeu.java:137)
@@ -104,9 +104,9 @@ java.lang.IllegalArgumentException: no such vertex in graph: La page de numéro 
 	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
 
-generationLivreJeu1(fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu)  Time elapsed: 0.004 sec  <<< ERROR!
+generationLivreJeu1(fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu)  Time elapsed: 0 sec  <<< ERROR!
 java.lang.IllegalArgumentException: no such vertex in graph: La page de numéro : 2 avec comme contenu : Lorem ipsum
- Objet :Objet 2
+ Objet :null
 	at org.jgrapht.graph.AbstractGraph.assertVertexExist(AbstractGraph.java:130)
 	at org.jgrapht.graph.AbstractBaseGraph.addEdge(AbstractBaseGraph.java:225)
 	at fr.univ_orleans.iut45.s202.Livre_Jeu.LivreJeu.genererLivreJeu_1(LivreJeu.java:137)
