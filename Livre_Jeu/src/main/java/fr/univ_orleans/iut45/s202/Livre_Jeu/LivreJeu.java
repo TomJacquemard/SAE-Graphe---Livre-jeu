@@ -73,9 +73,8 @@ public class LivreJeu extends Livre {
         }
        
 
-        
         Random random = new Random();
-        for(int i = 0; i<nbObjets;i++){
+        for(int i = 1; i<=nbObjets;i++){
             ObjetJeu objetCourant = new ObjetJeu("Objet " + i); //création de l'objet que l'on ajoute sur la page
 
             boolean indiceOk = false;

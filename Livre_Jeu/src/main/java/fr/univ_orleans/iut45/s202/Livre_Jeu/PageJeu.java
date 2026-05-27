@@ -56,6 +56,11 @@ public class PageJeu extends Page {
 
     @Override
     public String toString(){
+        if (this.contientObjet()){
         return super.toString() + "\n Objet :" + this.objet;
+        }
+        else{
+            return super.toString()+"\n Pas d'objet";
+        }
     }
 }

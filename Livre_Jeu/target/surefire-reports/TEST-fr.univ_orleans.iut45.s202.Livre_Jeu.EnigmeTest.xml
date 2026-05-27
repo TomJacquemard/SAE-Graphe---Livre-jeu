@@ -58,6 +58,6 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.endian" value="little"/>
   </properties>
-  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" name="testGetDuree" time="0.009"/>
-  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" name="testGetIntitule" time="0.005"/>
+  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" name="testGetDuree" time="0.012"/>
+  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" name="testGetIntitule" time="0.002"/>
 </testsuite>
