@@ -67,11 +67,11 @@ public class LivreJeu extends Livre {
         PageJeu pageEntree = new PageJeu(1, "Page d'entrée", false);
 
         this.lesPagesDuJeu.add(pageEntree);
-        this.lesPagesDuJeu.add(pageDeSortie);
-
         for (int i = 2; i<nbPages; i++){ //création des pages + objets
             this.lesPagesDuJeu.add(new PageJeu(i, "Lorem ipsum", false));
         }
+        this.lesPagesDuJeu.add(pageDeSortie);
+
         
         Random random = new Random();
         for(int i = 0; i<nbObjets;i++){
@@ -130,12 +130,11 @@ public class LivreJeu extends Livre {
                 pageEnPlacement.ajoutePage(p); //on ajoute la page voisine aux pagesSuivantes de pageEnPlacement
                 
                 int dureeEnigme = 1 + random.nextInt(20);//Choix aléatoire de la durée de l'Enigme menant à la page voisine p
-                int difficulte = 1 + random.nextInt(5);
                 Enigme e = new Enigme("Lorem Ipsum", dureeEnigme);//création et ajout de l'énigme 
                 pageEnPlacement.ajouteEnigme(e);
                 
-                DefaultWeightedEdge edge = this.graph.addEdge(pageEnPlacement, p);
-                this.graph.setEdgeWeight(edge, difficulte); 
+                //DefaultWeightedEdge edge = this.graph.addEdge(pageEnPlacement, p);
+                //this.graph.setEdgeWeight(edge, difficulte); 
             }
             pagesValides.add(pageEnPlacement);
             //A la fin de la boucle while, toutes les pages seront placées, sauf la page d'entrée

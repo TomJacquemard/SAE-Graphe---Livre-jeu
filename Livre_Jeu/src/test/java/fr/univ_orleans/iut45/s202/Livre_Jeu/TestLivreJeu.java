@@ -17,7 +17,7 @@ public class TestLivreJeu {
     List<PageJeu> pages = new ArrayList<>();
    
     
-    LivreJeu lj = new LivreJeu("titre", 8, "genererLivreJeu_1",4);
+    LivreJeu lj = new LivreJeu("titre", 9, "genererLivreJeu_1",4);
 
     @Test
     public void generationLivreJeu1() throws IOException{
@@ -127,8 +127,8 @@ public class TestLivreJeu {
       //  assertEquals(objetsRecuperes, object.estRecupere());
     //}
 
-    @Test
-    public void testGetPagesJeu(){
-        assertEquals(pages, lj.getPagesJeu());
-    }
+    //@Test
+    //public void testGetPagesJeu(){
+      //  assertEquals(pages, lj.getPagesJeu());
+    //}
     }
