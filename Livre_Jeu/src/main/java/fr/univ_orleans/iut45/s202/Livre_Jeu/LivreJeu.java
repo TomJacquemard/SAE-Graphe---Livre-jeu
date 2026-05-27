@@ -71,7 +71,6 @@ public class LivreJeu extends Livre {
         for (int i = 2; i<nbPages; i++){ //création des pages + objets
             this.lesPagesDuJeu.add(new PageJeu(i, "Lorem ipsum", false));
         }
-       
 
         Random random = new Random();
         for(int i = 1; i<=nbObjets;i++){
@@ -98,6 +97,23 @@ public class LivreJeu extends Livre {
         }
         remplirGraphe(); //retranscription des liens entre les pages dans le graphe avec les addVertex et addEdge
     }
+
+
+    /**
+     * CONSTRUCTEUR MANUEL POUR TESTS : Initialisation et configuration d'un LivreJeu de manière manuelle pour mener à bien les tests de TestLivreJeu
+     * Les objets ne seront pas placés sur les pages car il n'y en a pas besoin pour les tests de LivreJEU
+     * 
+     * */
+    
+    public LivreJeu(String titre,int nbObjets, List<PageJeu> lesPagesDuJeu, List<ObjetJeu> lesObjets,  Graph<PageJeu, DefaultWeightedEdge> graph){
+        super(titre, lesPagesDuJeu.size());
+        this.lesObjets = lesObjets;
+        this.objetsRecuperes = new ArrayList<>();
+        this.lesPagesDuJeu = lesPagesDuJeu;
+        this.graph = graph;
+        remplirGraphe();
+    }
+
 
     /**
      * GÉNÉRATEUR : Création aléatoire des liaisons narratives du livre.
