@@ -204,9 +204,6 @@ public class LivreJeu extends Livre {
     /**
      * GETTER : Accès à la modélisation sous forme de graphe.
      * @return L'objet Graph (JGraphT) représentant l'ossature du livre-jeu.
-     * 
-     * 
-     * 
      */
     public Graph<PageJeu, DefaultWeightedEdge> getGraphe() {
         return this.graph;
