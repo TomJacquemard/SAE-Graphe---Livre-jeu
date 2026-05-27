@@ -147,7 +147,7 @@ public class LivreJeu extends Livre{
             objetsRecuperes.add(objet);
         }
     }
-
+    
     public void genererLivreJeu2(PageJeu pageEntree, PageJeu pageSortie) {
         /*Vérifier si la liste contient bien la page d'entrée et de sortie en question */
         if (!this.pages.contains(pageEntree)|| !this.pages.contains(pageSortie)) {
