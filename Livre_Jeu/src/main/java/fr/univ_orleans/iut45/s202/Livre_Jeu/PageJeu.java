@@ -31,6 +31,10 @@ public class PageJeu extends Page {
     public boolean estSortie(){
         return this.sortie;
     }
+
+    public void setObjet(ObjetJeu ob) {
+        this.objet = ob;
+    }
     
     public List<PageJeu> getPagesSuivantes(){
         return this.pageSuivantes;

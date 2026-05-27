@@ -99,6 +99,29 @@ public class LivreJeu extends Livre {
         pagesAPlacer.remove(pageDeSortie);
         Random random = new Random();
 
+        // --- CORRECTION : CRÉATION ET PLACEMENT DES OBGETS ---
+        // 1. On nettoie et on crée des objets de quête obligatoires
+        this.lesObjets.clear();
+        this.lesObjets.add(new ObjetJeu("Clef en Or"));
+        this.lesObjets.add(new ObjetJeu("Amulette"));
+
+        // 2. On fait une copie des pages intermédiaires pour y distribuer nos objets
+        List<PageJeu> pagesCiblesPourObjets = new ArrayList<>(pagesAPlacer);
+        Collections.shuffle(pagesCiblesPourObjets);
+
+        // 3. On associe physiquement chaque objet à une page unique
+        for (int i = 0; i < this.lesObjets.size(); i++) {
+            if (i < pagesCiblesPourObjets.size()) {
+                PageJeu pageCible = pagesCiblesPourObjets.get(i);
+                ObjetJeu obj = this.lesObjets.get(i);
+                
+                // On lie l'objet à la page (Adapte le nom de la méthode selon ta classe PageJeu, ex: setObjet(obj))
+                pageCible.ajouteObjet(obj); 
+                System.out.println("[GENERATOR] Objet '" + obj.getNom() + "' placé secrètement sur la Page n°" + pageCible.getNumero());
+            }
+        }
+        // -----------------------------------------------------
+
         while (!pagesAPlacer.isEmpty()) { 
             PageJeu pageEnPlacement = pagesAPlacer.remove(0);
             Collections.shuffle(pagesValides); 
@@ -417,6 +440,12 @@ public class LivreJeu extends Livre {
                 break;
             }
         }
+        System.out.println("DEBUG - Nombre d'objets total dans le livre : " + this.getListeObjets().size());
+for (PageJeu p : this.lesPagesDuJeu) {
+    if (p.contientObjet()) {
+        System.out.println("DEBUG - La page " + p.getNumero() + " contient l'objet : " + p.getObjet().getNom());
+    }
+}
         return chemin;
     }
 
@@ -649,8 +678,8 @@ public class LivreJeu extends Livre {
             Font fontTitre = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, bleuNuitPDF);
             Font fontSousTitre = FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 10, Color.GRAY);
             Font fontSection = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, bleuRoiPDF);
-            Font fontTexte = FontFactory.getFont(FontFactory.HELVETICA, 10, Color.DARK_GRAY);
-            Font fontHeader = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10, Color.WHITE);
+            Font fontTexte = FontFactory.getFont(FontFactory.HELVETICA, 9, Color.DARK_GRAY);
+            Font fontHeader = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9, Color.WHITE);
 
             // 1. EN-TÊTE DU DOCUMENT
             document.add(new Paragraph("RAPPORT DE STRUCTURE ET PERFORMANCES", fontTitre));
@@ -662,7 +691,6 @@ public class LivreJeu extends Livre {
             document.add(new Paragraph("\n"));
 
             try {
-                // Surcharge de l'adaptateur pour personnaliser l'affichage textuel sans altérer les objets d'origine
                 JGraphXAdapter<PageJeu, DefaultWeightedEdge> graphAdapter = new JGraphXAdapter<PageJeu, DefaultWeightedEdge>(this.graph) {
                     @Override
                     public String convertValueToString(Object cell) {
@@ -670,11 +698,9 @@ public class LivreJeu extends Livre {
                             com.mxgraph.model.mxCell mxCell = (com.mxgraph.model.mxCell) cell;
                             Object value = mxCell.getValue();
                             
-                            // Si c'est un sommet (une page de jeu), on affiche uniquement son numéro
                             if (mxCell.isVertex() && value instanceof PageJeu) {
                                 return String.valueOf(((PageJeu) value).getNumero());
                             }
-                            // Si c'est une arête (une liaison), on calcule et affiche sa durée
                             if (mxCell.isEdge() && value instanceof DefaultWeightedEdge) {
                                 if (mxCell.getSource() != null && mxCell.getTarget() != null) {
                                     Object srcVal = mxCell.getSource().getValue();
@@ -697,7 +723,6 @@ public class LivreJeu extends Livre {
                     }
                 };
 
-                // --- CONFIGURATION DU STYLE DES ARÊTES (FLÈCHES) ---
                 java.util.Map<String, Object> edgeStyle = graphAdapter.getStylesheet().getDefaultEdgeStyle();
                 edgeStyle.put(com.mxgraph.util.mxConstants.STYLE_STROKECOLOR, "#2c3e50");
                 edgeStyle.put(com.mxgraph.util.mxConstants.STYLE_STROKEWIDTH, 1.5);
@@ -707,18 +732,15 @@ public class LivreJeu extends Livre {
                 edgeStyle.put(com.mxgraph.util.mxConstants.STYLE_FONTSIZE, 10);
                 edgeStyle.put(com.mxgraph.util.mxConstants.STYLE_FONTSTYLE, com.mxgraph.util.mxConstants.FONT_BOLD);
 
-                // --- PARCOURS ET REMPLISSAGE DES SOMMETS ---
                 for (Object vertexCell : graphAdapter.getChildVertices(graphAdapter.getDefaultParent())) {
                     com.mxgraph.model.mxCell cell = (com.mxgraph.model.mxCell) vertexCell;
                     PageJeu page = (PageJeu) cell.getValue();
                     
                     if (page != null) {
-                        // Forcer des dimensions carrées pour obtenir un beau cercle
                         com.mxgraph.model.mxGeometry geo = cell.getGeometry();
                         geo.setWidth(45);
                         geo.setHeight(45);
                         
-                        // Création du dictionnaire de style graphique pour le cercle
                         java.util.Map<String, Object> customStyle = new java.util.HashMap<>();
                         customStyle.put(com.mxgraph.util.mxConstants.STYLE_SHAPE, com.mxgraph.util.mxConstants.SHAPE_ELLIPSE);
                         customStyle.put(com.mxgraph.util.mxConstants.STYLE_PERIMETER, com.mxgraph.util.mxConstants.PERIMETER_ELLIPSE);
@@ -728,15 +750,14 @@ public class LivreJeu extends Livre {
                         customStyle.put(com.mxgraph.util.mxConstants.STYLE_VERTICAL_ALIGN, com.mxgraph.util.mxConstants.ALIGN_MIDDLE);
                         customStyle.put(com.mxgraph.util.mxConstants.STYLE_ALIGN, com.mxgraph.util.mxConstants.ALIGN_CENTER);
                         
-                        // Attribution des couleurs de fond
                         if (page.getNumero() == 1) {
-                            customStyle.put(com.mxgraph.util.mxConstants.STYLE_FILLCOLOR, "#27ae60"); // Vert = Début
+                            customStyle.put(com.mxgraph.util.mxConstants.STYLE_FILLCOLOR, "#27ae60"); 
                             customStyle.put(com.mxgraph.util.mxConstants.STYLE_STROKECOLOR, "#1e8449");
                         } else if (page.estSortie()) {
-                            customStyle.put(com.mxgraph.util.mxConstants.STYLE_FILLCOLOR, "#c0392b"); // Rouge = Fin
+                            customStyle.put(com.mxgraph.util.mxConstants.STYLE_FILLCOLOR, "#c0392b"); 
                             customStyle.put(com.mxgraph.util.mxConstants.STYLE_STROKECOLOR, "#962d22");
                         } else {
-                            customStyle.put(com.mxgraph.util.mxConstants.STYLE_FILLCOLOR, "#2c3e50"); // Bleu = Pages normales
+                            customStyle.put(com.mxgraph.util.mxConstants.STYLE_FILLCOLOR, "#2c3e50"); 
                             customStyle.put(com.mxgraph.util.mxConstants.STYLE_STROKECOLOR, "#1a252f");
                         }
                         
@@ -746,12 +767,10 @@ public class LivreJeu extends Livre {
                     }
                 }
 
-                // ALIGNEMENT GÉOMÉTRIQUE EN CERCLE AÉRÉ
                 com.mxgraph.layout.mxCircleLayout layout = new com.mxgraph.layout.mxCircleLayout(graphAdapter);
                 layout.setRadius(160); 
                 layout.execute(graphAdapter.getDefaultParent());
 
-                // GÉNÉRATION ET INTÉGRATION DE L'IMAGE DANS LE PDF
                 BufferedImage img = com.mxgraph.util.mxCellRenderer.createBufferedImage(
                         graphAdapter, null, 1.5, Color.WHITE, true, null);
                 
@@ -765,14 +784,11 @@ public class LivreJeu extends Livre {
 
             } catch (Exception imgEx) {
                 document.add(new Paragraph("[Schéma Visuel non généré] : " + imgEx.getMessage(), fontSousTitre));
-                imgEx.printStackTrace();
             }
             document.add(new Paragraph("\n\n"));
 
-            // 3. EXÉCUTION DE LA RECHERCHE AUTONOME
-            List<PageJeu> cheminSolution = this.rechercheSolutionGloutonne(100.0); 
-
-            document.add(new Paragraph("2. Résultats", fontSection));
+            // 3. TABLEAU DE SYNTHÈSE ET COMPARATIF DES ALGOS
+            document.add(new Paragraph("2. Tableau comparatif des approches algorithmiques", fontSection));
             document.add(new Paragraph("\n"));
 
             // Tableau à 5 colonnes pour plus de précision
@@ -795,7 +811,7 @@ public class LivreJeu extends Livre {
             // Préparation des listes à évaluer
             java.util.Map<String, List<PageJeu>> listesAlgos = new java.util.LinkedHashMap<>();
             listesAlgos.put("Glouton (Focus Sortie)", this.algorithmeGloutonSortieSeule(100.0));
-            listesAlgos.put("Glouton (Métier / Correct)", this.algorithmeGloutonCorrect(100.0));
+            listesAlgos.put("Glouton (Correct)", this.algorithmeGloutonCorrect(100.0));
             listesAlgos.put("Dijkstra Séquentiel", this.algorithmeDijkstraCorrect());
             listesAlgos.put("Combinatoire Complet", this.algorithmeCombinatoireComplet());
 
