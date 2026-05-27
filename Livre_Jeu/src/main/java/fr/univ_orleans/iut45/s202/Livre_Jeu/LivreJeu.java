@@ -772,67 +772,85 @@ public class LivreJeu extends Livre {
             // 3. EXÉCUTION DE LA RECHERCHE AUTONOME
             List<PageJeu> cheminSolution = this.rechercheSolutionGloutonne(100.0); 
 
-            // 4. TABLEAU DE SYNTHÈSE DU CHEMIN
-            document.add(new Paragraph("2. Évaluation du chemin et objets collectés", fontSection));
+            document.add(new Paragraph("2. Résultats", fontSection));
             document.add(new Paragraph("\n"));
 
-            PdfPTable tableau = new PdfPTable(4);
+            // Tableau à 5 colonnes pour plus de précision
+            PdfPTable tableau = new PdfPTable(5);
             tableau.setWidthPercentage(100);
-            tableau.setWidths(new float[]{4f, 2f, 2f, 4f});
+            tableau.setWidths(new float[]{3.5f, 4.5f, 1.5f, 2f, 3.5f});
 
-            PdfPCell h1 = new PdfPCell(new Paragraph("Chemin emprunté", fontHeader));
-            PdfPCell h2 = new PdfPCell(new Paragraph("Longueur", fontHeader));
-            PdfPCell h3 = new PdfPCell(new Paragraph("Temps Cumulé", fontHeader));
-            PdfPCell h4 = new PdfPCell(new Paragraph("Objet(s) récupéré(s)", fontHeader));
+            PdfPCell h1 = new PdfPCell(new Paragraph("Nom de l'algorithme", fontHeader));
+            PdfPCell h2 = new PdfPCell(new Paragraph("Chemin calculé", fontHeader));
+            PdfPCell h3 = new PdfPCell(new Paragraph("Taille", fontHeader));
+            PdfPCell h4 = new PdfPCell(new Paragraph("Temps Total", fontHeader));
+            PdfPCell h5 = new PdfPCell(new Paragraph("Objets collectés", fontHeader));
 
             h1.setBackgroundColor(bleuNuitPDF); h2.setBackgroundColor(bleuNuitPDF);
             h3.setBackgroundColor(bleuNuitPDF); h4.setBackgroundColor(bleuNuitPDF);
-            tableau.addCell(h1); tableau.addCell(h2); tableau.addCell(h3); tableau.addCell(h4);
+            h5.setBackgroundColor(bleuNuitPDF);
+            
+            tableau.addCell(h1); tableau.addCell(h2); tableau.addCell(h3); tableau.addCell(h4); tableau.addCell(h5);
 
-            if (cheminSolution != null && cheminSolution.size() > 1) {
-                StringBuilder sbChemin = new StringBuilder();
-                StringBuilder sbObjets = new StringBuilder();
-                double tempsCumule = 0.0;
+            // Préparation des listes à évaluer
+            java.util.Map<String, List<PageJeu>> listesAlgos = new java.util.LinkedHashMap<>();
+            listesAlgos.put("Glouton (Focus Sortie)", this.algorithmeGloutonSortieSeule(100.0));
+            listesAlgos.put("Glouton (Métier / Correct)", this.algorithmeGloutonCorrect(100.0));
+            listesAlgos.put("Dijkstra Séquentiel", this.algorithmeDijkstraCorrect());
+            listesAlgos.put("Combinatoire Complet", this.algorithmeCombinatoireComplet());
 
-                for (int i = 0; i < cheminSolution.size(); i++) {
-                    PageJeu curr = cheminSolution.get(i);
-                    sbChemin.append(curr.getNumero());
-                    if (i < cheminSolution.size() - 1) {
-                        sbChemin.append(" -> ");
-                        
-                        PageJeu next = cheminSolution.get(i + 1);
-                        List<PageJeu> voisines = curr.getPagesSuivantes();
-                        List<Enigme> enigmes = curr.getEnigmes();
-                        
-                        for (int j = 0; j < voisines.size(); j++) {
-                            if (voisines.get(j).getNumero() == next.getNumero()) {
-                                tempsCumule += enigmes.get(j).getDuree();
-                                break;
+            // Génération des lignes du tableau de manière dynamique
+            for (java.util.Map.Entry<String, List<PageJeu>> entry : listesAlgos.entrySet()) {
+                String nomAlgo = entry.getKey();
+                List<PageJeu> chemin = entry.getValue();
+
+                if (chemin != null && chemin.size() > 1) {
+                    StringBuilder sbChemin = new StringBuilder();
+                    StringBuilder sbObjets = new StringBuilder();
+                    double tempsCumule = 0.0;
+
+                    for (int i = 0; i < chemin.size(); i++) {
+                        PageJeu curr = chemin.get(i);
+                        sbChemin.append(curr.getNumero());
+                        if (i < chemin.size() - 1) {
+                            sbChemin.append("->");
+                            
+                            PageJeu next = chemin.get(i + 1);
+                            List<PageJeu> voisines = curr.getPagesSuivantes();
+                            List<Enigme> enigmes = curr.getEnigmes();
+                            
+                            for (int j = 0; j < voisines.size(); j++) {
+                                if (voisines.get(j).getNumero() == next.getNumero()) {
+                                    tempsCumule += enigmes.get(j).getDuree();
+                                    break;
+                                }
                             }
+                        }
+
+                        if (curr.contientObjet() && curr.getObjet() != null) {
+                            if (sbObjets.length() > 0) sbObjets.append(", ");
+                            sbObjets.append(curr.getObjet().getNom());
                         }
                     }
 
-                    if (curr.contientObjet() && curr.getObjet() != null) {
-                        if (sbObjets.length() > 0) sbObjets.append(", ");
-                        sbObjets.append(curr.getObjet().getNom()).append(" (p.").append(curr.getNumero()).append(")");
-                    }
+                    int arcs = chemin.size() - 1;
+                    String chaineObjets = sbObjets.length() == 0 ? "Aucun" : sbObjets.toString();
+                    
+                    tableau.addCell(new PdfPCell(new Paragraph(nomAlgo, fontTexte)));
+                    tableau.addCell(new PdfPCell(new Paragraph(sbChemin.toString(), fontTexte)));
+                    tableau.addCell(new PdfPCell(new Paragraph(arcs + " arcs", fontTexte)));
+                    tableau.addCell(new PdfPCell(new Paragraph((int)tempsCumule + " s", fontTexte))); 
+                    tableau.addCell(new PdfPCell(new Paragraph(chaineObjets, fontTexte)));
+                } else {
+                    tableau.addCell(new PdfPCell(new Paragraph(nomAlgo, fontTexte)));
+                    PdfPCell cellErreur = new PdfPCell(new Paragraph("⚠️ Chemin introuvable ou bloqué.", fontTexte));
+                    cellErreur.setColspan(4);
+                    tableau.addCell(cellErreur);
                 }
-
-                int arcs = cheminSolution.size() - 1;
-                String chaineObjets = sbObjets.length() == 0 ? "Aucun objet récolté" : sbObjets.toString();
-                
-                tableau.addCell(new PdfPCell(new Paragraph(sbChemin.toString(), fontTexte)));
-                tableau.addCell(new PdfPCell(new Paragraph(arcs + " arcs", fontTexte)));
-                tableau.addCell(new PdfPCell(new Paragraph((int)tempsCumule + " s", fontTexte))); 
-                tableau.addCell(new PdfPCell(new Paragraph(chaineObjets, fontTexte)));
-            } else {
-                PdfPCell cellVide = new PdfPCell(new Paragraph("⚠️ Aucun chemin valide trouvé par le parcours glouton.", fontTexte));
-                cellVide.setColspan(4);
-                tableau.addCell(cellVide);
             }
 
             document.add(tableau);
-            System.out.println("[PDF SUCCESS] Le rapport graphique a été généré sans erreur de conversion.");
+            System.out.println("[PDF SUCCESS] Le rapport contient désormais le comparatif des 4 algorithmes.");
 
         } catch (Exception e) {
             System.out.println("[PDF ERROR] " + e.getMessage());
