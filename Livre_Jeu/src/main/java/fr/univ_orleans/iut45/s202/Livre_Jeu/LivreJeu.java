@@ -154,7 +154,7 @@ public class LivreJeu extends Livre {
         }
 
         List<PageJeu> pagesIsolees = this.pagesSansSource();
-        if (pagesIsolees.size() > 1) {  //si il y des pages isolées... >1 car la page d'entrée est pour le moment FORCEMENT isolée
+        if (pagesIsolees.size() > 1) {  //si il y des pages isolées... >1 car la page d'entrée est pour le moment FORCEMENT isolée + c'est aussi le cas pour la dernière page que l'on a ajouté normalement cette condition est donc toujours vérifiée
             for (PageJeu pIsolee : pagesIsolees) { //on relie la page d'entrée à ces pages isolées
                 if (!pIsolee.equals(pageEntree)) {
                     pageEntree.ajoutePage(pIsolee);
@@ -182,6 +182,8 @@ public class LivreJeu extends Livre {
                 p.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEnigme));
             }
         }
+        pagesValides.add(pageEntree);//la page d'entrée devient placée
+
         pagesValides.remove(pageDeSortie); //on remove pour éviter le cas (très rare) où on tomberait sur l'indice aléatoire 1 qui subList la page de sortie (on ne relie pas la page de sortie à elle même !)
         nbPagesChoisies = 1 + random.nextInt(Math.min(4, pagesValides.size())); 
         pagesChoisies = pagesValides.subList(0, nbPagesChoisies); 
@@ -203,7 +205,7 @@ public class LivreJeu extends Livre {
     public List<PageJeu> pagesSansSource() {
         List<PageJeu> pagesSansSource = new ArrayList<>();
         boolean aUneSource = false;
-        for (PageJeu p : this.graph.vertexSet()) {
+        for (PageJeu p : this.lesPagesDuJeu) {
             if (p.getPagesSuivantes().contains(p)){
                     aUneSource=true;
                 }
