@@ -135,12 +135,12 @@ public class TestLivreJeu {
 
     @Test
     public void generationLivreJeu2() throws IOException{
-      LivreJeu livre = new LivreJeu("titre", 10, "genererLivreJeu2", 3);
+      LivreJeu livre = new LivreJeu("titre", 50, "genererLivreJeu2", 3);
       DOTExporter<PageJeu,DefaultWeightedEdge> exporter = new DOTExporter<>();
       exporter.setVertexAttributeProvider((x) -> Map.of("label", new DefaultAttribute<>(x, AttributeType.STRING)));
 		  exporter.exportGraph(livre.getGraphe(), new FileWriter("graph2.dot"));
       //une fois qu'on obtient le fichier .dot exécuter cette commande comme en tp de graphes pour convertir en pdf
       //dot -Tpdf graph.dot -o graph.pdf
-    };
+    }
 
     }
