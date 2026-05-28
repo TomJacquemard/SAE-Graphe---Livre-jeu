@@ -1,36 +1,54 @@
 package fr.univ_orleans.iut45.s202.Livre_Jeu;
 
-import java.util.*;
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.Assert.*;
+
+import org.junit.Before;
 import org.junit.Test;
 
 
-
 public class TestLivreJeu {
-    List<ObjetJeu> lesObjets = new ArrayList<>();
-    List<ObjetJeu> objetsRecuperes = new ArrayList<>();
-    List<PageJeu> pages = new ArrayList<>();
-   
-    
-    LivreJeu lj = new LivreJeu("titre", 3);
 
-    @Test
-    public void getListObjects(){
-        assertEquals(lesObjets, lj.getListeObjets());
-    }
+    LivreJeu lj;
+    ObjetJeu objet;
+    PageJeu page;
 
-    @Test
-    public void getObjetsRecuperes(){
-        assertEquals(objetsRecuperes, lj.getObjetsRecuperes());
-    }
+    @Before
+    public void init() {
 
-    @Test 
-    public void recupererObjet(ObjetJeu object){
-        assertEquals(objetsRecuperes, object.estRecupere());
+        lj = new LivreJeu("titre", 3);
+
+        objet = new ObjetJeu("clé");
+        page = new PageJeu(0, null, false, objet);
+
+        lj.getListeObjets().add(objet);
+        lj.getListePageJeu().add(page);
     }
 
     @Test
-    public void getListePageJeu(){
-        assertEquals(pages, lj.getListePageJeu());
+    public void getListObjects() {
+
+        assertEquals(1, lj.getListeObjets().size());
+        assertTrue(lj.getListeObjets().contains(objet));
     }
+
+    @Test
+    public void getObjetsRecuperes() {
+
+        assertEquals(0, lj.getObjetsRecuperes().size());
     }
+
+    @Test
+    public void recupererObjet() {
+
+        lj.recupererObjet(objet);
+        assertTrue(lj.getObjetsRecuperes().contains(objet));
+    }
+
+    @Test
+    public void getListePageJeu() {
+
+        assertEquals(1, lj.getListePageJeu().size());
+        assertTrue(lj.getListePageJeu().contains(page));
+    }
+}

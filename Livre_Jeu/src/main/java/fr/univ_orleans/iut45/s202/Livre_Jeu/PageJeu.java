@@ -18,7 +18,6 @@ public class PageJeu extends Page {
         this.enigmes = new ArrayList<>();
 
         //mettre algorithme de création ici pour remplir la liste des pageSuivantes et des enigmes
-        
     
     }
 
