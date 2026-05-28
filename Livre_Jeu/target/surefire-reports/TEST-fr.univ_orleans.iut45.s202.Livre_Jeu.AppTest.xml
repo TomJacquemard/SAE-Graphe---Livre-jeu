@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <testsuite tests="1" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.AppTest" time="0.021" errors="0" skipped="0">
 =======
 <testsuite tests="1" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.AppTest" time="0.01" errors="0" skipped="0">
+>>>>>>> devLaura
+=======
+<testsuite tests="1" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.AppTest" time="0.009" errors="0" skipped="0">
 >>>>>>> devLaura
   <properties>
     <property name="jansi.mode" value="force"/>
@@ -63,8 +67,12 @@
     <property name="sun.cpu.endian" value="little"/>
   </properties>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.AppTest" name="rigorousTest" time="0.021"/>
 =======
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.AppTest" name="rigorousTest" time="0.01"/>
+>>>>>>> devLaura
+=======
+  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.AppTest" name="rigorousTest" time="0.009"/>
 >>>>>>> devLaura
 </testsuite>

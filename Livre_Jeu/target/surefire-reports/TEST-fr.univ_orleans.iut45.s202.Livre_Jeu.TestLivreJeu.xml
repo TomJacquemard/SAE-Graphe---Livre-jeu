@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <testsuite tests="5" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" time="0.053" errors="0" skipped="0">
 =======
 <testsuite tests="5" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" time="0.058" errors="0" skipped="0">
+>>>>>>> devLaura
+=======
+<testsuite tests="5" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" time="0.002" errors="0" skipped="0">
 >>>>>>> devLaura
   <properties>
     <property name="jansi.mode" value="force"/>
@@ -63,6 +67,7 @@
     <property name="sun.cpu.endian" value="little"/>
   </properties>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="testGetPagesJeu" time="0.008"/>
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="getListObjects" time="0"/>
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="testGetObjetsRecuperes" time="0"/>
@@ -74,5 +79,12 @@
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="testGetObjetsRecuperes" time="0.001"/>
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="testRecupererObjet" time="0.001"/>
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="generationLivreJeu1" time="0.039"/>
+>>>>>>> devLaura
+=======
+  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="testGetPagesJeu" time="0"/>
+  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="getListObjects" time="0"/>
+  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="testGetObjetsRecuperes" time="0"/>
+  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="testRecupererObjet" time="0"/>
+  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="generationLivreJeu1" time="0.002"/>
 >>>>>>> devLaura
 </testsuite>

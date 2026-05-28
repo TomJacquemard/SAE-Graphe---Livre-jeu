@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <testsuite tests="2" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.PageTest" time="0.019" errors="0" skipped="0">
 =======
 <testsuite tests="2" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.PageTest" time="0.008" errors="0" skipped="0">
+>>>>>>> devLaura
+=======
+<testsuite tests="2" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.PageTest" time="0.001" errors="0" skipped="0">
 >>>>>>> devLaura
   <properties>
     <property name="jansi.mode" value="force"/>
@@ -63,9 +67,13 @@
     <property name="sun.cpu.endian" value="little"/>
   </properties>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.PageTest" name="testLecture" time="0.019"/>
 =======
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.PageTest" name="testLecture" time="0.008"/>
+>>>>>>> devLaura
+=======
+  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.PageTest" name="testLecture" time="0.001"/>
 >>>>>>> devLaura
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.PageTest" name="testGetNumero" time="0"/>
 </testsuite>
