@@ -361,29 +361,49 @@ public class LivreJeu extends Livre {
      * @return Une List de PageJeu validant les conditions de victoire.
      */
     public List<PageJeu> algorithmeGloutonCorrect(double borneMax) {
+
+        //initialisation de chemin
         List<PageJeu> chemin = new ArrayList<>();
+
+        //initialisation de la liste des objets qu'il faut attraper
         List<ObjetJeu> objetsAAttraper = new ArrayList<>(this.getListeObjets());
         
+        //Initialisation du pointeur
         PageJeu pageCourante = this.lesPagesDuJeu.get(0);
         chemin.add(pageCourante);
 
+        //Utile pour savoir quel page a déjà été visitées
         List<PageJeu> visiteesGlobal = new ArrayList<>();
         visiteesGlobal.add(pageCourante);
 
+        //Tant que tout les objets n'ont pas été ramassés
         while (!objetsAAttraper.isEmpty()) {
+
+            //on regarde les voisin de la page du pointeur
             List<PageJeu> voisines = pageCourante.getPagesSuivantes();
             List<Enigme> enigmes = pageCourante.getEnigmes();
+
+            //si aucun voisin alors arreter de chercher le graphe n'est pas bien fait
             if (voisines == null || voisines.isEmpty()) {break;}
 
+            //besoin pour connaitre la futur page du pointeur
             PageJeu prochainePage = null;
             double tempsMin = Double.MAX_VALUE;
 
+            //recherche de la futur page du pointeur
+            // Pour chaque page voisine de la page actuelle
             for (int i = 0; i < voisines.size(); i++) {
+
+                //prise en compte du temps des énigmes de la page i-voisine de la page actuelle
                 PageJeu v = voisines.get(i);
                 Enigme e = enigmes.get(i);
+
+                //comparaison pour savoir si l'énigme a une durée trop grande par rapport à la taille de la borne gloutonne
                 if (e.getDuree() > borneMax || visiteesGlobal.contains(v)) {continue;}
                 
+                //vérifier si la page voisine contient un objet pas ramassé
                 if (v.contientObjet() && objetsAAttraper.contains(v.getObjet())) {
+                    //si la page 
                     if (e.getDuree() < tempsMin) {
                         tempsMin = e.getDuree();
                         prochainePage = v;
@@ -391,6 +411,7 @@ public class LivreJeu extends Livre {
                 }
             }
 
+            //si aucune page voisine ne contenait un objet
             if (prochainePage == null) {
                 for (int i = 0; i < voisines.size(); i++) {
                     PageJeu v = voisines.get(i);
@@ -404,10 +425,15 @@ public class LivreJeu extends Livre {
                 }
             }
 
+            //si une prochaine page a été trouvée
             if (prochainePage != null) {
                 pageCourante = prochainePage;
+                
+                //l'ajouter au chemin de solution
                 chemin.add(pageCourante);
                 visiteesGlobal.add(pageCourante);
+
+                //
                 if (pageCourante.contientObjet()) {
                     objetsAAttraper.remove(pageCourante.getObjet());
                 }
