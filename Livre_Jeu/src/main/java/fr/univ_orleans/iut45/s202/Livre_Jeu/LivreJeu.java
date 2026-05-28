@@ -102,6 +102,10 @@ public class LivreJeu extends Livre {
         if (choixGenerateur.equals("genererLivreJeu_1")){
             genererLivreJeu_1(pageDeSortie, pageEntree); //génération des liens entre les pages (pageSuivantes) + enigmes
         }
+
+        else if(choixGenerateur.equals(("genererLivreJeu2"))) {
+            genererLivreJeu2(pageEntree, pageDeSortie);
+        }
         remplirGraphe(); //retranscription des liens entre les pages dans le graphe avec les addVertex et addEdge
 
     }
@@ -195,7 +199,9 @@ public class LivreJeu extends Livre {
 
     public void remplirGraphe(){
         for(PageJeu pageCourante : lesPagesDuJeu){ //obligé de parcourir en deux temps : car addVertex(pageA,pageB) nécessite deux pages déjà dans le graphe
-
+        this.graph.addVertex(pageCourante);
+        }
+        for(PageJeu pageCourante : lesPagesDuJeu){
             List<PageJeu> pagesSuivantes = pageCourante.getPagesSuivantes();
             List<Enigme> enigmes = pageCourante.getEnigmes();
             for(int i = 0; i<pagesSuivantes.size(); i ++){
@@ -276,12 +282,12 @@ public class LivreJeu extends Livre {
     
     public void genererLivreJeu2(PageJeu pageEntree, PageJeu pageSortie) {
         /*Vérifier si la liste contient bien la page d'entrée et de sortie en question */
-        if (!this.pages.contains(pageEntree)|| !this.pages.contains(pageSortie)) {
+        if (!this.lesPagesDuJeu.contains(pageEntree)|| !this.lesPagesDuJeu.contains(pageSortie)) {
             throw new IllegalArgumentException("La page d'entrée ou de sortie n'appartient pas à ce livre");
         }
 
         /*Isoler les pages intermédiaires en retirant pageEntrée et pageSortie pour créer un chemin sûr */
-        List<PageJeu> pagesDisponibles = new ArrayList<>(this.pages);
+        List<PageJeu> pagesDisponibles = new ArrayList<>(this.lesPagesDuJeu);
         pagesDisponibles.remove(pageEntree);
         pagesDisponibles.remove(pageSortie);
 
@@ -298,12 +304,16 @@ public class LivreJeu extends Livre {
         for (int i =0; i< nbPagesIntermediaires; i++) {
             PageJeu pageSuivante = pagesDisponibles.remove(0);
             pageCourante.ajoutePage(pageSuivante); // crée l'arc 
+            double duree = 1.0 + (Math.random()*20.0);
+            pageCourante.ajouteEnigme(new Enigme("Enigme chemin", duree));
             cheminsSurs.add(pageSuivante);
             pageCourante = pageSuivante;
         }
 
         //On connecte la dernière page courante à la page de sortie 
         pageCourante.ajoutePage(pageSortie);
+        double dureeFinale = 1.0 + (Math.random()*20.0);
+        pageCourante.ajouteEnigme(new Enigme("Enigme sortie", dureeFinale));
         cheminsSurs.add(pageSortie);
 
         //Pour ajouter maintenant de façon hasardeuse le reste de pages
@@ -321,7 +331,11 @@ public class LivreJeu extends Livre {
             PageJeu pageSource = cheminsSurs.get(indexSource);
             // On crée l'arc avec la page piège
             pageSource.ajoutePage(pagePiege);
+            double duree2 = 1.0 + (Math.random()*20.0);
+            pageSource.ajouteEnigme(new Enigme("Enigme de liaison", duree2));
             pagePiege.ajoutePage(pageEntree);
+            double duree3 = 1.0 + (Math.random()*20.0);
+            pagePiege.ajouteEnigme(new Enigme("Enigme piégeuse", duree3));
             //On n'ajoute pas cela au chemin sûr, parce que c'est une fausse piste
         }
 
@@ -331,11 +345,21 @@ public class LivreJeu extends Livre {
             int indexSource2 = (int) (Math.random()*(cheminsSurs.size()-1));
             PageJeu pageSource2 = cheminsSurs.get(indexSource2);
             //On récupère la destination actuelle de page source dans la liste de chemins sûrs
-            PageJeu pageDestination = pageSource2.getPagesSuivantes().get(0);
+            PageJeu pageDestination = null;
+            if (!pageSource2.getPagesSuivantes().isEmpty()) {
+                pageDestination = pageSource2.getPagesSuivantes().get(0);
+            }
+            else {
+                pageDestination = pageSortie;
+            }
             //On crée l'arc entre la page source et la page allongée
             pageSource2.ajoutePage(pageAllongee);
+            double duree4 = 1.0 + (Math.random()*20.0);
+            pageSource2.ajouteEnigme(new Enigme("Enigme de liaison", duree4));
             //Je connecte la pageAllongée à la desination "actuelle" de la page source
             pageAllongee.ajoutePage(pageDestination);
+            double duree5 = 1.0 + (Math.random()*20.0);
+            pageAllongee.ajouteEnigme(new Enigme("Enigme de liaison", duree5));
 
             // On met à jour notre liste de suivi pour que pageRallonge puisse 
             // elle-même accueillir d'autres pages plus tard --> systeme de prolongation de la liste. 
@@ -344,6 +368,8 @@ public class LivreJeu extends Livre {
         }
         //Pour avoir un lien entre la page de sortie et celle d'entrée (aucune réciprocité dans l'autre sinon le jeu serait trop facile)
         pageSortie.ajoutePage(pageEntree);
+        double duree6 = 1.0 + (Math.random()*20.0);
+        pageSortie.ajouteEnigme(new Enigme("Enigme de fin", duree6));
 }
 
 
