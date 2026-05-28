@@ -373,7 +373,7 @@ public class LivreJeu extends Livre {
         while (!objetsAAttraper.isEmpty()) {
             List<PageJeu> voisines = pageCourante.getPagesSuivantes();
             List<Enigme> enigmes = pageCourante.getEnigmes();
-            if (voisines == null || voisines.isEmpty()) break;
+            if (voisines == null || voisines.isEmpty()) {break;}
 
             PageJeu prochainePage = null;
             double tempsMin = Double.MAX_VALUE;
@@ -381,8 +381,8 @@ public class LivreJeu extends Livre {
             for (int i = 0; i < voisines.size(); i++) {
                 PageJeu v = voisines.get(i);
                 Enigme e = enigmes.get(i);
-                if (e.getDuree() > borneMax || visiteesGlobal.contains(v)) continue;
-
+                if (e.getDuree() > borneMax || visiteesGlobal.contains(v)) {continue;}
+                
                 if (v.contientObjet() && objetsAAttraper.contains(v.getObjet())) {
                     if (e.getDuree() < tempsMin) {
                         tempsMin = e.getDuree();
@@ -440,12 +440,13 @@ public class LivreJeu extends Livre {
                 break;
             }
         }
+
         System.out.println("DEBUG - Nombre d'objets total dans le livre : " + this.getListeObjets().size());
-for (PageJeu p : this.lesPagesDuJeu) {
-    if (p.contientObjet()) {
-        System.out.println("DEBUG - La page " + p.getNumero() + " contient l'objet : " + p.getObjet().getNom());
-    }
-}
+        for (PageJeu p : this.lesPagesDuJeu) {
+            if (p.contientObjet()) {
+                System.out.println("DEBUG - La page " + p.getNumero() + " contient l'objet : " + p.getObjet().getNom());
+            }
+        }
         return chemin;
     }
 
@@ -463,7 +464,7 @@ for (PageJeu p : this.lesPagesDuJeu) {
         etapes.add(this.lesPagesDuJeu.get(0)); 
         
         for (PageJeu p : this.lesPagesDuJeu) {
-            if (p.contientObjet() && p.getNumero() != 1 && !p.estSortie()) {
+            if ((p.contientObjet() && p.getNumero() != 1 && !p.estSortie()) && !(etapes.contains(p))) {
                 etapes.add(p);
             }
         }
@@ -477,18 +478,23 @@ for (PageJeu p : this.lesPagesDuJeu) {
         }
         if (pageSortie != null) etapes.add(pageSortie);
 
+
+        PageJeu pageActuelle = this.lesPagesDuJeu.get(0);
+
         org.jgrapht.alg.shortestpath.DijkstraShortestPath<PageJeu, DefaultWeightedEdge> dijkstra = 
             new org.jgrapht.alg.shortestpath.DijkstraShortestPath<>(this.graph);
 
         for (int i = 0; i < etapes.size() - 1; i++) {
-            org.jgrapht.GraphPath<PageJeu, DefaultWeightedEdge> path = dijkstra.getPath(etapes.get(i), etapes.get(i+1));
+            org.jgrapht.GraphPath<PageJeu, DefaultWeightedEdge> path = dijkstra.getPath(pageActuelle, etapes.get(i+1));
             if (path != null) {
                 List<PageJeu> subPath = path.getVertexList();
                 if (i > 0 && !cheminComplet.isEmpty()) {
                     subPath.remove(0); 
                 }
+                pageActuelle = etapes.get(i);
                 cheminComplet.addAll(subPath);
             }
+
         }
         return cheminComplet;
     }
@@ -523,10 +529,10 @@ for (PageJeu p : this.lesPagesDuJeu) {
     /**
      * Méthode récursive interne pour le calcul du backtracking.
      */
-    private void backtrackingRecursive(PageJeu nœud, List<PageJeu> cheminEnCours, double tempsAccumule, int totalObjets) {
+    private void backtrackingRecursive(PageJeu noeud, List<PageJeu> cheminEnCours, double tempsAccumule, int totalObjets) {
         if (tempsAccumule >= this.meilleurTempsComplet) return;
 
-        if (nœud.estSortie()) {
+        if (noeud.estSortie()) {
             int objetsCollectes = 0;
             for (PageJeu p : cheminEnCours) {
                 if (p.contientObjet()) objetsCollectes++;
@@ -539,8 +545,8 @@ for (PageJeu p : this.lesPagesDuJeu) {
             return;
         }
 
-        List<PageJeu> voisines = nœud.getPagesSuivantes();
-        List<Enigme> enigmes = nœud.getEnigmes();
+        List<PageJeu> voisines = noeud.getPagesSuivantes();
+        List<Enigme> enigmes = noeud.getEnigmes();
         if (voisines == null) return;
 
         for (int i = 0; i < voisines.size(); i++) {
