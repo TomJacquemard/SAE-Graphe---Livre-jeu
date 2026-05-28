@@ -1,41 +1,24 @@
 package fr.univ_orleans.iut45.s202.Livre_Jeu;
 
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.builder.GraphTypeBuilder;
-import org.jgrapht.util.SupplierUtil;
+import java.io.IOException;
 
-/**
- * Hello JGraphT!
- */
 public class App {
-	
-	public static void main(String[] args) {
-		
-		Graph<String, DefaultEdge> graph = GraphTypeBuilder
-				.directed()
-				.allowingMultipleEdges(true)
-				.allowingSelfLoops(true)
-				.vertexSupplier(SupplierUtil.createStringSupplier())
-				.edgeSupplier(SupplierUtil.createDefaultEdgeSupplier())
-				.buildGraph();
+    public static void main(String[] args) {
+        try {
+            // 1. Initialisation de ton livre jeu
+            LivreJeu monLivre = new LivreJeu("La Revanche du Graphe", 10, "genererLivreJeu_1",4);
+            
+            // (Ici, assure-toi d'avoir ton code qui charge ou crée les pages et les arêtes)
+            // ex: monLivre.chargerGraphe(); ou la création manuelle de tes sommets.
 
-		String v0 = graph.addVertex();
-		String v1 = graph.addVertex();
-		String v2 = graph.addVertex();
+            System.out.println("Génération du rapport PDF en cours...");
 
-		graph.addEdge(v0, v1);
-		graph.addEdge(v1, v2);
-		graph.addEdge(v0, v2);
+            // 2. L'appel magique, simple et sans aucun argument !
+            monLivre.exporterEnPDF();
 
-		for (String v : graph.vertexSet()) {
-			System.out.println("vertex: " + v);
-		}
-
-		for (DefaultEdge e : graph.edgeSet()) {
-			System.out.println("edge: " + e);
-		}
-		
-	}
-	
+        } catch (Exception e) {
+            System.out.println("Erreur lors de l'exécution : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

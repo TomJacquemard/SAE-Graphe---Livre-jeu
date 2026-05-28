@@ -6,8 +6,8 @@ import org.junit.Test;
 
 public class EnigmeTest {
     private String intitule = "Enigme 1";
-    private int difficultee = 3;
-    private Enigme e = new Enigme(this.intitule, this.difficultee);
+    private double duree = 3.0;
+    private Enigme e = new Enigme(this.intitule, this.duree);
 
     @Test
     public void testGetIntitule(){
@@ -15,7 +15,7 @@ public class EnigmeTest {
     }
 
     @Test
-    public void testGetDifficultee(){
-        assertEquals(this.difficultee, e.getDifficultee());
+    public void testGetDuree(){
+        assertEquals(this.duree, e.getDuree(),0.0001); // sans le troisième argument le assertEquals(double,double) était deprecated"
     }
 }
