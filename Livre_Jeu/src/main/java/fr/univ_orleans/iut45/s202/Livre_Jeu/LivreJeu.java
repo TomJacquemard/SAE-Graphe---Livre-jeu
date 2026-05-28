@@ -162,7 +162,7 @@ public class LivreJeu extends Livre {
                     pageEntree.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEnigme));//création et ajout de l'énigme
                 }
             }
-        } else { //sinon je relie la page d'entrée à quelques pages
+        } else { //sinon je relie la page d'entrée à quelques pages - Normalement on ne rentre jamais dans cette condition car la dernière page que l'on vient d'ajt est forcément sans source, simple sécurité.
             int nbPagesChoisies = 1 + random.nextInt(Math.min(4, pagesValides.size())); 
             List<PageJeu> pagesChoisies = pagesValides.subList(0, nbPagesChoisies); 
             for (PageJeu p : pagesChoisies) {
@@ -172,7 +172,7 @@ public class LivreJeu extends Livre {
             }
         }
 
-        //Enfin on rajoute quelques pages menant vers le début
+        //Enfin on rajoute quelques pages menant vers le début ET quelques pages voisines de la sortie car sinon l'algo tel quel ne permet pas à la sortie d'avoir des voisines
         int nbPagesChoisies = 1 + random.nextInt(Math.min(4, pagesValides.size())); 
         List<PageJeu> pagesChoisies = pagesValides.subList(0, nbPagesChoisies); 
         for (PageJeu p : pagesChoisies) {
@@ -182,6 +182,16 @@ public class LivreJeu extends Livre {
                 p.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEnigme));
             }
         }
+        pagesValides.remove(pageDeSortie); //on remove pour éviter le cas (très rare) où on tomberait sur l'indice aléatoire 1 qui subList la page de sortie (on ne relie pas la page de sortie à elle même !)
+        nbPagesChoisies = 1 + random.nextInt(Math.min(4, pagesValides.size())); 
+        pagesChoisies = pagesValides.subList(0, nbPagesChoisies); 
+        for (PageJeu p : pagesChoisies) {
+            if (!p.equals(pageDeSortie)) { //sécurité mais normalement impossible de retomber sur pageDeSortie
+                pageDeSortie.ajoutePage(p);
+                int dureeEnigme = 1 + random.nextInt(20);
+                pageDeSortie.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEnigme));
+                }
+            }
     }
 
     /**
@@ -192,10 +202,12 @@ public class LivreJeu extends Livre {
      */
     public List<PageJeu> pagesSansSource() {
         List<PageJeu> pagesSansSource = new ArrayList<>();
+        boolean aUneSource = false;
         for (PageJeu p : this.graph.vertexSet()) {
-            if (this.graph.inDegreeOf(p) == 0) {
-                pagesSansSource.add(p);
-            }
+            if (p.getPagesSuivantes().contains(p)){
+                    aUneSource=true;
+                }
+            if(!(aUneSource)){pagesSansSource.add(p);} //si je n'ai trouvé aucune source à la fin de mon parcours pour la page courante je l'ajoute aux pages sans source
         }
         return pagesSansSource;
     }
