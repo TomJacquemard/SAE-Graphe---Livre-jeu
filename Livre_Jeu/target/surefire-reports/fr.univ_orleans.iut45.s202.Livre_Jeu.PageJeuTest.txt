@@ -3,10 +3,14 @@ Test set: fr.univ_orleans.iut45.s202.Livre_Jeu.PageJeuTest
 -------------------------------------------------------------------------------
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
 =======
 Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec
 >>>>>>> devLaura
 =======
 Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 sec
+>>>>>>> devLaura
+=======
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec
 >>>>>>> devLaura

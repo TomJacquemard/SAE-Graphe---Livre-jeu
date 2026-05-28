@@ -3,10 +3,14 @@ Test set: fr.univ_orleans.iut45.s202.Livre_Jeu.AppTest
 -------------------------------------------------------------------------------
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 sec
 =======
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 sec
 >>>>>>> devLaura
 =======
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 sec
+>>>>>>> devLaura
+=======
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 sec
 >>>>>>> devLaura

@@ -162,15 +162,7 @@ public class LivreJeu extends Livre {
                     pageEntree.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEnigme));//création et ajout de l'énigme
                 }
             }
-        } else { //sinon je relie la page d'entrée à quelques pages - Normalement on ne rentre jamais dans cette condition car la dernière page que l'on vient d'ajt est forcément sans source, simple sécurité.
-            int nbPagesChoisies = 1 + random.nextInt(Math.min(4, pagesValides.size())); 
-            List<PageJeu> pagesChoisies = pagesValides.subList(0, nbPagesChoisies); 
-            for (PageJeu p : pagesChoisies) {
-                pageEntree.ajoutePage(p);
-                int dureeEnigme = 1 + random.nextInt(20);
-                pageEntree.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEnigme));
-            }
-        }
+        } 
 
         //Enfin on rajoute quelques pages menant vers le début ET quelques pages voisines de la sortie car sinon l'algo tel quel ne permet pas à la sortie d'avoir des voisines
         int nbPagesChoisies = 1 + random.nextInt(Math.min(4, pagesValides.size())); 
@@ -205,11 +197,15 @@ public class LivreJeu extends Livre {
     public List<PageJeu> pagesSansSource() {
         List<PageJeu> pagesSansSource = new ArrayList<>();
         boolean aUneSource = false;
-        for (PageJeu p : this.lesPagesDuJeu) {
-            if (p.getPagesSuivantes().contains(p)){
-                    aUneSource=true;
+        for (PageJeu pCourante : this.lesPagesDuJeu){
+            aUneSource=false;
+            for (PageJeu p : this.lesPagesDuJeu) {
+                if (p.getPagesSuivantes().contains(pCourante)){
+                        aUneSource=true;
+                    }
                 }
-            if(!(aUneSource)){pagesSansSource.add(p);} //si je n'ai trouvé aucune source à la fin de mon parcours pour la page courante je l'ajoute aux pages sans source
+                if(!(aUneSource)&& !(pagesSansSource.contains(pCourante))){pagesSansSource.add(pCourante);} //si je n'ai trouvé aucune source à la fin de mon parcours pour la page courante je l'ajoute aux pages sans source
+            
         }
         return pagesSansSource;
     }
@@ -225,7 +221,7 @@ public class LivreJeu extends Livre {
             List<Enigme> enigmes = pageCourante.getEnigmes();
             for(int i = 0; i<pagesSuivantes.size(); i ++){
                 DefaultWeightedEdge nouvelleEdge = this.graph.addEdge(pageCourante, pagesSuivantes.get(i));
-        
+                
                 this.graph.setEdgeWeight(nouvelleEdge,enigmes.get(i).getDuree()); //on attribut le poids a la nouvelle arrete
             }
         }
