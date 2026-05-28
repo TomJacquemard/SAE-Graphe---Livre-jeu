@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class PageJeu extends Page {
+
     private boolean sortie;
     private List<PageJeu> pageSuivantes;
     private ObjetJeu objet;
@@ -17,7 +18,6 @@ public class PageJeu extends Page {
         this.enigmes = new ArrayList<>();
 
         //mettre algorithme de création ici pour remplir la liste des pageSuivantes et des enigmes
-        
     
     }
 
@@ -54,4 +54,5 @@ public class PageJeu extends Page {
     public void ajouteEnigme(Enigme enigme){
         this.enigmes.add(enigme);
     }
+
 }

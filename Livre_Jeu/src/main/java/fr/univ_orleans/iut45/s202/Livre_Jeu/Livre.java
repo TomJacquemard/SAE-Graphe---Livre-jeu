@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Livre{
+
     protected String titre;
     private List<Page> pages;
     protected int nbPages;
@@ -12,6 +13,9 @@ public class Livre{
         this.titre = titre;
         this.nbPages = nbPages;
         this.pages = new ArrayList<>();
+        for (int i=1; i<=nbPages; i++){
+            this.pages.add(new Page(i, "Lorem ipsum"));
+        }
     }
 
     public String getTitre(){
@@ -34,4 +38,20 @@ public class Livre{
         }
         throw new IndexOutOfBoundsException("Page inexistante");
     }
+
+
+    @Override
+    public boolean equals(Object l){
+        if (l == null){return false;}
+        if (this == l){return true;}
+        if (!(l instanceof Page)){return false;}
+        Livre tmp = (Livre) l;
+        return this.titre == tmp.titre && this.nbPages == tmp.nbPages && this.pages.equals(tmp.pages);
+    }
+
+    @Override
+    public String toString(){
+        return "Le livre '" + this.titre + "' avec " + this.nbPages + " pages : " + this.pages;
+    }
+
 }
