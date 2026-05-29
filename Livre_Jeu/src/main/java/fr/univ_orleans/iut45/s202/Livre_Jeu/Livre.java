@@ -1,5 +1,4 @@
 package fr.univ_orleans.iut45.s202.Livre_Jeu;
-
 import java.util.List;
 import java.util.ArrayList;
 
@@ -11,8 +10,7 @@ public class Livre {
 
     public Livre(String titre, int nbPages){
         this.titre = titre;
-        this.nbPages=nbPages;
-        
+        this.nbPages = nbPages;
     }
     
     public String getTitre(){
@@ -23,6 +21,7 @@ public class Livre {
         return this.nbPages;
     }
 
+ 
 
     @Override
     public boolean equals(Object l){
@@ -37,4 +36,5 @@ public class Livre {
     public String toString(){
         return "Le livre '" + this.titre + "' avec " + this.nbPages + " pages.";
     }
+
 }

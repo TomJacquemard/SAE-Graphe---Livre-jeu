@@ -1,21 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<testsuite tests="2" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" time="0.008" errors="0" skipped="0">
-=======
-<testsuite tests="2" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" time="0.005" errors="0" skipped="0">
->>>>>>> devLaura
-=======
-<testsuite tests="2" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" time="0.01" errors="0" skipped="0">
->>>>>>> devLaura
-=======
-<testsuite tests="2" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" time="0.005" errors="0" skipped="0">
->>>>>>> devLaura
+<testsuite tests="2" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" time="0.003" errors="0" skipped="0">
   <properties>
     <property name="jansi.mode" value="force"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
-    <property name="java.vm.version" value="21.0.10+7-Ubuntu-124.04"/>
+    <property name="java.vm.version" value="21.0.11+10-1-24.04.2-Ubuntu"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-21-openjdk-amd64/lib"/>
     <property name="maven.multiModuleProjectDirectory" value="/home/laura/SAE/SAE-Graphe---Livre-jeu/Livre_Jeu"/>
     <property name="java.vm.vendor" value="Ubuntu"/>
@@ -28,7 +16,7 @@
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="user.dir" value="/home/laura/SAE/SAE-Graphe---Livre-jeu/Livre_Jeu"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
-    <property name="java.runtime.version" value="21.0.10+7-Ubuntu-124.04"/>
+    <property name="java.runtime.version" value="21.0.11+10-1-24.04.2-Ubuntu"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.io.tmpdir" value="/tmp"/>
     <property name="line.separator" value="
@@ -60,30 +48,16 @@
     <property name="user.language" value="fr"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
-    <property name="java.version" value="21.0.10"/>
+    <property name="java.version" value="21.0.11"/>
     <property name="native.encoding" value="UTF-8"/>
     <property name="java.vendor" value="Ubuntu"/>
     <property name="maven.home" value="/usr/share/maven"/>
     <property name="file.separator" value="/"/>
-    <property name="java.version.date" value="2026-01-20"/>
+    <property name="java.version.date" value="2026-04-21"/>
     <property name="java.vendor.url.bug" value="https://bugs.launchpad.net/ubuntu/+source/openjdk-21"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.endian" value="little"/>
   </properties>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" name="testGetDuree" time="0.008"/>
+  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" name="testGetDuree" time="0.003"/>
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" name="testGetIntitule" time="0"/>
-=======
-  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" name="testGetDuree" time="0.004"/>
-  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" name="testGetIntitule" time="0.001"/>
->>>>>>> devLaura
-=======
-  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" name="testGetDuree" time="0.01"/>
-=======
-  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" name="testGetDuree" time="0.005"/>
->>>>>>> devLaura
-  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.EnigmeTest" name="testGetIntitule" time="0"/>
->>>>>>> devLaura
 </testsuite>

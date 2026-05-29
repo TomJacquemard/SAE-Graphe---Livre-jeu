@@ -47,12 +47,13 @@ public class TestLivreJeu {
 
     @Test
     public void generationLivreJeu1() throws IOException{
-        LivreJeu lj = new LivreJeu("titre", 9, "genererLivreJeu_1",4);
+        LivreJeu lj = new LivreJeu("titre", 9, "genererLivreJeu_1",1);
         DOTExporter<PageJeu,DefaultWeightedEdge> exporter = new DOTExporter<>();
         exporter.setVertexAttributeProvider((x) -> Map.of("label", new DefaultAttribute<>(x, AttributeType.STRING)));
 		    exporter.exportGraph(lj.getGraphe(), new FileWriter("graph.dot"));
         //une fois qu'on obtient le fichier .dot exécuter cette commande comme en tp de graphes pour convertir en pdf
         //dot -Tpdf graph.dot -o graph.pdf
+        
     };
 
     //     // Création des pages
@@ -137,7 +138,7 @@ public class TestLivreJeu {
     //     System.out.println("Longueur : " + solution.size());
     //     System.out.println("Temps total : " + tempsTotal);
     // }
-    
+
     @Test
     public void getListObjects(){
       assertEquals(lesObjets, ljManuel.getListeObjets());
@@ -161,4 +162,15 @@ public class TestLivreJeu {
        assertEquals(pages, ljManuel.getPagesJeu());
     }
 
-}
+    @Test
+    public void generationLivreJeu2() throws IOException{
+      LivreJeu livre = new LivreJeu("titre", 9, "genererLivreJeu2", 3);
+      DOTExporter<PageJeu,DefaultWeightedEdge> exporter = new DOTExporter<>();
+      exporter.setVertexAttributeProvider((x) -> Map.of("label", new DefaultAttribute<>(x, AttributeType.STRING)));
+		  exporter.exportGraph(livre.getGraphe(), new FileWriter("graph2.dot"));
+      //une fois qu'on obtient le fichier .dot exécuter cette commande comme en tp de graphes pour convertir en pdf
+      //dot -Tpdf graph2.dot -o graph2.pdf
+    }
+
+  }
+
