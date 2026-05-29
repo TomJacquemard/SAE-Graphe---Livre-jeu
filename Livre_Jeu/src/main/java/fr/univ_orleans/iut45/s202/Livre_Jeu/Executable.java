@@ -1,6 +1,7 @@
 package fr.univ_orleans.iut45.s202.Livre_Jeu;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -83,20 +84,33 @@ public class Executable {
         }
 
         System.out.println("Génération lancée");
-
+        LivreJeu livreJeu = null;
         if (numAlgo == 1){
-            LivreJeu livreJeu =new LivreJeu(titreLivre, nbPages, "genererLivreJeu_1", nbObjets);
+            livreJeu =new LivreJeu(titreLivre, nbPages, "genererLivreJeu_1", nbObjets);
         }
         else{
-            LivreJeu livreJeu = new LivreJeu(titreLivre, nbPages, "genererLivreJeu2", nbObjets)
+            livreJeu = new LivreJeu(titreLivre, nbPages, "genererLivreJeu2", nbObjets);
         }
 
+        boolean generationReussie = false;
+        try{
         System.out.println("\n Génération réussie !");
-        System.out.println("Conversion du fichier en pdf...");
+        System.out.println("Conversion du livre jeu en pdf...");
         DOTExporter<PageJeu,DefaultWeightedEdge> exporter = new DOTExporter<>();
         exporter.setVertexAttributeProvider((x) -> Map.of("label", new DefaultAttribute<>(x, AttributeType.STRING)));
 		exporter.exportGraph(livreJeu.getGraphe(), new FileWriter("graph.dot"));
+        generationReussie =true;
+        }
+        catch(IOException e){
+            
+            System.out.println("Erreur lors de la création du fichier. Veuillez relancer l'exécutable.");
+        }
 
+        if(generationReussie){
+        System.out.println("Génération du pdf indiquant les solutions...");
+        livreJeu.exporterEnPDF();
+        System.out.println("Solutions générées ! Ouvrez les pdf de votre répértoire pour observer le graphe et ses solutions.");
+        }
     }
 
 
