@@ -18,9 +18,12 @@ public class Executable {
 
         boolean paramValides = false;
         while(!paramValides){
+            int numAlgo = 0;
+
             try{
+            
                 System.out.println("En attente de la saisie utilisateur...");
-                int numAlgo = scanner.nextInt();
+                numAlgo = scanner.nextInt();
                 if (numAlgo != 1 && numAlgo !=2){
                     System.out.println("Vous devez entrer 1 ou 2 selon l'algoritme de votre choix.");
                 }
@@ -33,10 +36,49 @@ public class Executable {
             }
             } //le numéro de l'algo de génération à été choisi
         
+        System.out.println("\n La génération va débuter, choisissez vos paramètres :");
         
+        System.out.println("Titre du livre : ");
+        String titreLivre = scanner.nextLine();
+        paramValides = true;
+        
+        paramValides = false;
+        while(!paramValides){
+            int nbPages = 0;
 
-
+            try{
+                System.out.println("Combien de pages : ");
+                nbPages = scanner.nextInt();
+                paramValides = true;
+            }
+            catch(NumberFormatException e){
+                System.out.println("Veuillez rentrez un nombre. \n");
+            }
         }
+
+        paramValides = false;
+        while(!paramValides){
+            int nbObjets = 0;
+            try{
+                System.out.println("Combien d'objets : ");
+                nbObjets = scanner.nextInt();
+                paramValides = true;
+            }
+            catch(NumberFormatException e){
+                System.out.println("Veuillez rentrez un nombre. \n");
+            }
+        }
+
+        System.out.println("Génération lancée");
+
+        if (numAlgo == 1){
+            LivreJeu livreJeu =new LivreJeu(titreLivre, nbPages, "genererLivreJeu_1", nbObjets);
+        }
+        else{
+            LivreJeu livreJeu = new LivreJeu(titreLivre, nbPages, "genererLivreJeu2", nbObjets)
+        }
+        
+    }
 
 
     
