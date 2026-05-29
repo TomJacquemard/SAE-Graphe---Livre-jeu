@@ -2,7 +2,11 @@
 Test set: fr.univ_orleans.iut45.s202.Livre_Jeu.PageJeuTest
 -------------------------------------------------------------------------------
 <<<<<<< HEAD
+<<<<<<< HEAD
 Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.042 sec
 =======
 Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in fr.univ_orleans.iut45.s202.Livre_Jeu.PageJeuTest
 >>>>>>> devTom
+=======
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 sec
+>>>>>>> 324af0a9c28cbd1fe024b1bb8559158774116cf9
