@@ -7,7 +7,8 @@ import org.junit.Test;
 public class EnigmeTest {
     private String intitule = "Enigme 1";
     private int difficultee = 3;
-    private Enigme e = new Enigme(this.intitule, this.difficultee);
+    private double duree = 0.5;
+    private Enigme e = new Enigme(this.intitule, this.duree, this.difficultee);
 
     @Test
     public void testGetIntitule(){

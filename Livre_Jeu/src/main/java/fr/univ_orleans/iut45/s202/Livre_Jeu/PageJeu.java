@@ -12,10 +12,10 @@ public class PageJeu extends Page {
     // Liste des énigmes associées à chaque transition (même index que pageSuivantes)
     private List<Enigme> enigmes;
 
-    public PageJeu(int numero, String contenu, boolean sortie, ObjetJeu objet){
+    public PageJeu(int numero, String contenu, boolean sortie){
         super(numero, contenu);
         this.sortie = sortie;
-        this.objet = objet;
+        this.objet = null;
         this.pageSuivantes = new ArrayList<>();
         this.enigmes = new ArrayList<>();
     }

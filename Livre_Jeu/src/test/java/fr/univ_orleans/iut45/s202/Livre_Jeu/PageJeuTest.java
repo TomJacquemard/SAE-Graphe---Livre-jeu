@@ -6,22 +6,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.junit.Before;
 
 public class PageJeuTest {
 
-    String contenu = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-    PageJeu pageJeu1 = new PageJeu(1, contenu, false, null); //pages sans objet, n'est pas la sortie
-    PageJeu pageJeu2 = new PageJeu(2, contenu, false, null);
-    PageJeu pageJeu3 = new PageJeu(3, contenu, false, null);
+    private PageJeu pageJeu1;
+    private PageJeu pageJeu2;
+    private PageJeu pageJeu3;
+    private PageJeu pageJeuSortie;
+    private PageJeu pageJeuObjet;
 
-    PageJeu pageJeuSortie =  new PageJeu(3, contenu, true, null);//page sortie
+    private ObjetJeu objet;
+    
+    private Enigme enigme1;
+    private Enigme enigme2;
 
-    ObjetJeu objet = new ObjetJeu("A");
-    PageJeu pageJeuObjet = new PageJeu(1, contenu, false, objet); //page avec objet, n'est pas la sortie
+    @Before
+    public void init() {
+        String contenu = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+        pageJeu1 = new PageJeu(1, contenu, false); //pages sans objet, n'est pas la sortie
+        pageJeu2 = new PageJeu(2, contenu, false);
+        pageJeu3 = new PageJeu(3, contenu, false);
 
-    Enigme enigme1 = new Enigme("Enigme 1", 2);// ENLEVER DIFFICULTE DANS ENIGME CAR duree=difficulte
-    Enigme enigme2 = new Enigme("Enigme 2", 4);
+        pageJeuSortie =  new PageJeu(3, contenu, true);//page sortie
 
+        objet = new ObjetJeu("A");
+        pageJeuObjet = new PageJeu(1, contenu, false); //page avec objet, n'est pas la sortie
+        pageJeuObjet.setObjet(objet); 
+
+        enigme1 = new Enigme("Enigme 1", 2);// ENLEVER DIFFICULTE DANS ENIGME CAR duree=difficulte
+        enigme2 = new Enigme("Enigme 2", 4);
+    }
 
     @Test
     public void testAjoutePage(){ //teste aussi le guetteur getPagesSuivantes
