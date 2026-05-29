@@ -79,7 +79,13 @@ public class Executable {
             try{
                 System.out.println("Combien d'objets : ");
                 nbObjets = scanner.nextInt();
+                if(nbObjets>nbPages){
+                System.out.println("Veuillez saisir un nombre d'objets inférieur au nombre de pages.");
+                scanner.nextLine();
+            }
+                else{
                 paramValides = true;
+                }
             }
             catch(Exception e){
                 System.out.println("Veuillez rentrez un nombre. \n");
