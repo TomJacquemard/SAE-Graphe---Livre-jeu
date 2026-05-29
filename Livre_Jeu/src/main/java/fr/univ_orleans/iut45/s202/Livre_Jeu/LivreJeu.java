@@ -52,8 +52,8 @@ public class LivreJeu extends Livre {
     private Graph<PageJeu, DefaultWeightedEdge> graph; 
 
     //compteurs de temps d'executions pour les deux algos de générations
-    private int compteurTmpsExec1;
-    private int compteurTmpsExec2;
+    private int compteurTmpsExec1 = 0; //on va incrémenter ces deux compteurs en fonction des étapes de génération pour vérifier les temps d'exécution. 
+    private int compteurTmpsExec2 = 0;
 
     /**
      * CONSTRUCTEUR : Initialisation et configuration du livre-jeu.
@@ -70,11 +70,6 @@ public class LivreJeu extends Livre {
         this.lesObjets = new ArrayList<>();
         this.objetsRecuperes = new ArrayList<>();
         this.lesPagesDuJeu = new ArrayList<>();
-
-        //compteurs de temps d'executions pour les deux algos de générations
-        this.compteurTmpsExec1 = 0; //on va incrémenter ces deux compteurs en fonction des étapes de génération pour vérifier les temps d'exécution. 
-        this.compteurTmpsExec2 = 0;
-
 
         this.graph = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
 
@@ -142,6 +137,14 @@ public class LivreJeu extends Livre {
         this.lesPagesDuJeu = lesPagesDuJeu;
         this.graph = graph;
         remplirGraphe();
+    }
+
+    public int getCompteur1(){
+        return this.compteurTmpsExec1;
+    }
+
+    public int getCompteur2(){
+        return this.compteurTmpsExec2;
     }
 
 

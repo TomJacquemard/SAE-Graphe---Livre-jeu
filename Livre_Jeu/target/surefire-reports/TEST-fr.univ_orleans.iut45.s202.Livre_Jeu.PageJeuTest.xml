@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="5" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.PageJeuTest" time="0.001" errors="0" skipped="0">
+<testsuite tests="5" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.PageJeuTest" time="0" errors="0" skipped="0">
   <properties>
     <property name="jansi.mode" value="force"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
@@ -60,7 +60,7 @@
   </properties>
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.PageJeuTest" name="testGetObjet" time="0"/>
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.PageJeuTest" name="testAjoutePage" time="0"/>
-  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.PageJeuTest" name="testEstSortie" time="0.001"/>
+  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.PageJeuTest" name="testEstSortie" time="0"/>
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.PageJeuTest" name="testAjouteEnigme" time="0"/>
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.PageJeuTest" name="testContientObjet" time="0"/>
 </testsuite>
