@@ -1,6 +1,13 @@
 package fr.univ_orleans.iut45.s202.Livre_Jeu;
 
+import java.io.FileWriter;
+import java.util.Map;
 import java.util.Scanner;
+
+import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.nio.AttributeType;
+import org.jgrapht.nio.DefaultAttribute;
+import org.jgrapht.nio.dot.DOTExporter;
 
 public class Executable {
     public static void main(String[] args) {
@@ -17,8 +24,10 @@ public class Executable {
         System.out.println(" -2 Algorithme créant un chemin sûr avant d'ajouter les autres pages.");
 
         boolean paramValides = false;
+        int numAlgo = 0;
+        int nbPages = 0;
+
         while(!paramValides){
-            int numAlgo = 0;
 
             try{
             
@@ -40,25 +49,29 @@ public class Executable {
         
         System.out.println("Titre du livre : ");
         String titreLivre = scanner.nextLine();
-        paramValides = true;
         
         paramValides = false;
         while(!paramValides){
-            int nbPages = 0;
-
+            if(numAlgo == 2){System.out.println("Vous avez sélectionné l'algorithme numéro 2, il faut que vous saisissiez un nombre de pages >2.");}
             try{
                 System.out.println("Combien de pages : ");
                 nbPages = scanner.nextInt();
-                paramValides = true;
+                if(numAlgo == 2){
+                    if(nbPages>2){
+                        paramValides = true;
+                    }
+                    else{System.out.println("Il");}
+                }
+                else{paramValides=true;}
             }
             catch(NumberFormatException e){
                 System.out.println("Veuillez rentrez un nombre. \n");
             }
         }
 
+        int nbObjets = 0;
         paramValides = false;
         while(!paramValides){
-            int nbObjets = 0;
             try{
                 System.out.println("Combien d'objets : ");
                 nbObjets = scanner.nextInt();
@@ -77,7 +90,13 @@ public class Executable {
         else{
             LivreJeu livreJeu = new LivreJeu(titreLivre, nbPages, "genererLivreJeu2", nbObjets)
         }
-        
+
+        System.out.println("\n Génération réussie !");
+        System.out.println("Conversion du fichier en pdf...");
+        DOTExporter<PageJeu,DefaultWeightedEdge> exporter = new DOTExporter<>();
+        exporter.setVertexAttributeProvider((x) -> Map.of("label", new DefaultAttribute<>(x, AttributeType.STRING)));
+		exporter.exportGraph(livreJeu.getGraphe(), new FileWriter("graph.dot"));
+
     }
 
 
