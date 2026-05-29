@@ -191,7 +191,7 @@ public class LivreJeu extends Livre {
         nbPagesChoisies = 1 + random.nextInt(Math.min(4, pagesValides.size())); 
         pagesChoisies = pagesValides.subList(0, nbPagesChoisies); 
         for (PageJeu p : pagesChoisies) {
-            if (!p.equals(pageDeSortie)) { //sécurité mais normalement impossible de retomber sur pageDeSortie
+            if (!p.equals(pageDeSortie) && (!pageDeSortie.getPagesSuivantes().contains(p))) { //sécurité mais normalement impossible de retomber sur pageDeSortie PARCONTRE DEUXIEME PARTIE DE LA CONDITION IMPORTANT !!! rare avec les grands graphes mais avec le bloc PRECEDENT on pourrait déjà ajouter pageDeSortie.ajouterPage(PageEntree) - ON NE PEUT PAS AJOUTER DEUX FOIS LA MEME ARETE ORIENTEE donc cela provoquerait une erreur
                 pageDeSortie.ajoutePage(p);
                 int dureeEnigme = 1 + random.nextInt(20);
                 pageDeSortie.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEnigme));
@@ -232,7 +232,9 @@ public class LivreJeu extends Livre {
             List<Enigme> enigmes = pageCourante.getEnigmes();
             for(int i = 0; i<pagesSuivantes.size(); i ++){
                 DefaultWeightedEdge nouvelleEdge = this.graph.addEdge(pageCourante, pagesSuivantes.get(i));
+                if(nouvelleEdge!=null){
                 this.graph.setEdgeWeight(nouvelleEdge,enigmes.get(i).getDuree()); //on attribut le poids a la nouvelle arrete
+                }
             }
         }
     }
