@@ -1,44 +1,40 @@
 strict digraph G {
   1 [ label="La page de numéro : 1 avec comme contenu : Page d'entrée
- Pas d'objet" ];
-  2 [ label="La page de numéro : 9 avec comme contenu : Page fin
- Objet :Objet 2" ];
-  3 [ label="La page de numéro : 2 avec comme contenu : Lorem ipsum
  Objet :Objet 3" ];
+  2 [ label="La page de numéro : 9 avec comme contenu : Page fin
+ Objet :Objet 4" ];
+  3 [ label="La page de numéro : 2 avec comme contenu : Lorem ipsum
+ Pas d'objet" ];
   4 [ label="La page de numéro : 3 avec comme contenu : Lorem ipsum
- Objet :Objet 1" ];
+ Pas d'objet" ];
   5 [ label="La page de numéro : 4 avec comme contenu : Lorem ipsum
  Pas d'objet" ];
   6 [ label="La page de numéro : 5 avec comme contenu : Lorem ipsum
- Pas d'objet" ];
+ Objet :Objet 1" ];
   7 [ label="La page de numéro : 6 avec comme contenu : Lorem ipsum
  Pas d'objet" ];
   8 [ label="La page de numéro : 7 avec comme contenu : Lorem ipsum
- Pas d'objet" ];
+ Objet :Objet 2" ];
   9 [ label="La page de numéro : 8 avec comme contenu : Lorem ipsum
- Objet :Objet 4" ];
+ Pas d'objet" ];
+  1 -> 8;
   1 -> 4;
-  1 -> 2;
   1 -> 7;
-  2 -> 1;
+  1 -> 3;
   3 -> 2;
-  4 -> 3;
   4 -> 2;
+  4 -> 3;
   4 -> 1;
+  5 -> 2;
+  5 -> 4;
   5 -> 3;
-  6 -> 5;
-  7 -> 4;
+  6 -> 2;
+  7 -> 5;
   7 -> 3;
+  8 -> 4;
   8 -> 6;
   8 -> 5;
-  8 -> 2;
   8 -> 3;
-  8 -> 7;
-  9 -> 4;
-  9 -> 2;
-  9 -> 7;
-  9 -> 5;
+  8 -> 1;
   9 -> 8;
-  9 -> 3;
-  9 -> 6;
 }
