@@ -47,7 +47,7 @@ public class TestLivreJeu {
 
     @Test
     public void generationLivreJeu1() throws IOException{
-        LivreJeu lj = new LivreJeu("titre", 30, "genererLivreJeu_1",15);
+        LivreJeu lj = new LivreJeu("titre", 9, "genererLivreJeu_1",1);
         DOTExporter<PageJeu,DefaultWeightedEdge> exporter = new DOTExporter<>();
         exporter.setVertexAttributeProvider((x) -> Map.of("label", new DefaultAttribute<>(x, AttributeType.STRING)));
 		    exporter.exportGraph(lj.getGraphe(), new FileWriter("graph.dot"));
@@ -168,7 +168,7 @@ public class TestLivreJeu {
 
     @Test
     public void generationLivreJeu2() throws IOException{
-      LivreJeu livre = new LivreJeu("titre", 30, "genererLivreJeu2", 15);
+      LivreJeu livre = new LivreJeu("titre", 9, "genererLivreJeu2", 3);
       DOTExporter<PageJeu,DefaultWeightedEdge> exporter = new DOTExporter<>();
       exporter.setVertexAttributeProvider((x) -> Map.of("label", new DefaultAttribute<>(x, AttributeType.STRING)));
 		  exporter.exportGraph(livre.getGraphe(), new FileWriter("graph2.dot"));
