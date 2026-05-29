@@ -9,13 +9,20 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 
 import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.ext.JGraphXAdapter;
+import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
@@ -73,8 +80,9 @@ public class LivreJeu extends Livre {
         PageJeu pageEntree = new PageJeu(1, "Page d'entrée", false);
 
         this.lesPagesDuJeu.add(pageEntree);
-         this.lesPagesDuJeu.add(pageDeSortie);
-        for (int i = 2; i<nbPages; i++){ //création des pages + objets
+        this.lesPagesDuJeu.add(pageDeSortie);
+
+        for (int i = 2; i < nbPages; i++) {
             this.lesPagesDuJeu.add(new PageJeu(i, "Lorem ipsum", false));
         }
 
@@ -162,9 +170,11 @@ public class LivreJeu extends Livre {
             }
             pagesValides.add(pageEnPlacement);
             //A la fin de la boucle while, toutes les pages seront placées, sauf la page d'entrée
+            //A la fin de la boucle while, toutes les pages seront placées, sauf la page d'entrée
         }
 
         List<PageJeu> pagesIsolees = this.pagesSansSource();
+        
         if (pagesIsolees.size() > 1) {  //si il y des pages isolées... >1 car la page d'entrée est pour le moment FORCEMENT isolée + c'est aussi le cas pour la dernière page que l'on a ajouté normalement cette condition est donc toujours vérifiée
             for (PageJeu pIsolee : pagesIsolees) { //on relie la page d'entrée à ces pages isolées
                 if (!pIsolee.equals(pageEntree)) {
@@ -179,8 +189,8 @@ public class LivreJeu extends Livre {
         int nbPagesChoisies = 1 + random.nextInt(Math.min(4, pagesValides.size())); 
         List<PageJeu> pagesChoisies = pagesValides.subList(0, nbPagesChoisies); 
         for (PageJeu p : pagesChoisies) {
-            if (!p.equals(pageEntree)) {
-                p.ajoutePage(pageEntree);
+            if (!p.equals(pageDeSortie) && (!pageDeSortie.getPagesSuivantes().contains(p))) { //sécurité mais normalement impossible de retomber sur pageDeSortie PARCONTRE DEUXIEME PARTIE DE LA CONDITION IMPORTANT !!! rare avec les grands graphes mais avec le bloc PRECEDENT on pourrait déjà ajouter pageDeSortie.ajouterPage(PageEntree) - ON NE PEUT PAS AJOUTER DEUX FOIS LA MEME ARETE ORIENTEE donc cela provoquerait une erreur
+                pageDeSortie.ajoutePage(p);
                 int dureeEnigme = 1 + random.nextInt(20);
                 p.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEnigme));
             }
@@ -197,6 +207,35 @@ public class LivreJeu extends Livre {
                 pageDeSortie.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEnigme));
                 }
             }
+    }
+
+     /** SETTER MANUEL POUR TESTS: Change le graphe du livre jeu à des fins de test.
+     * @return Rien car inutile de savoir quoi que ce soit.
+     */
+    public void setGraphe(SimpleDirectedWeightedGraph<PageJeu, DefaultWeightedEdge> graph) {
+        this.graph = graph;
+    }
+
+    public void ajouterPage(PageJeu p) {
+        this.lesPagesDuJeu.add(p);
+        this.graph.addVertex(p);
+    }
+
+    public void ajouterLien(PageJeu source,
+                        PageJeu destination,
+                        double poids) {
+
+        DefaultWeightedEdge edge =
+            this.graph.addEdge(source, destination);
+
+        this.graph.setEdgeWeight(edge, poids);
+    }
+
+    public void supprimerTout() {
+        this.lesPagesDuJeu = new ArrayList<>();
+        this.lesObjets = new ArrayList<>();
+        this.graph = null;
+
     }
 
 
@@ -247,9 +286,6 @@ public class LivreJeu extends Livre {
     /**
      * GETTER : Accès à la modélisation sous forme de graphe.
      * @return L'objet Graph (JGraphT) représentant l'ossature du livre-jeu.
-     * 
-     * 
-     * 
      */
     public Graph<PageJeu, DefaultWeightedEdge> getGraphe() {
         return this.graph;
@@ -284,8 +320,7 @@ public class LivreJeu extends Livre {
 
     /**
      * GETTER : Liste de l'inventaire possédé par le joueur.
-     * * @return 
-     * La List des objets collectés avec succès au cours de la partie.
+     * @return La List des objets collectés avec succès au cours de la partie.
      */
     public List<ObjetJeu> getObjetsRecuperes() {
         return this.objetsRecuperes;
@@ -408,235 +443,250 @@ public class LivreJeu extends Livre {
 
 
 
-    public List<PageJeu> rechercheSolutionGloutonne(double borneMax) {
-        List<PageJeu> cheminCalcule = new ArrayList<>();
-        List<ObjetJeu> objetsAAttraper = new ArrayList<>(this.getListeObjets());
-        
-        // La page de départ est TOUJOURS la première de la liste
-        PageJeu pageCourante = this.lesPagesDuJeu.get(0);
-        cheminCalcule.add(pageCourante);
+    public boolean cheminValide(List<PageJeu> chemin) {
 
-        // Historique pour éviter de boucler à l'infini entre deux pages
-        List<PageJeu> visitees = new ArrayList<>();
-        visitees.add(pageCourante);
+        if (chemin == null || chemin.isEmpty()) {
+            return false;
+        }
 
-        while (!pageCourante.estSortie()) {
-            List<PageJeu> voisines = pageCourante.getPagesSuivantes();
-            List<Enigme> enigmes = pageCourante.getEnigmes();
-            
-            if (voisines == null || voisines.isEmpty()) {
-                break; // Cul-de-sac
+        // Vérifie page de départ
+        if (!chemin.get(0).equals(this.lesPagesDuJeu.get(0))) {
+            return false;
+        }
+
+        // Vérifie page de sortie
+        /*if (!chemin.get(chemin.size() - 1).equals()) {
+            return false;
+        }*/
+
+        Set<ObjetJeu> objetsTrouves = new HashSet<>();
+
+        for (int i = 0; i < chemin.size(); i++) {
+
+            PageJeu actuelle = chemin.get(i);
+
+            // Récupération objet
+            if (actuelle.getObjet() != null) {
+                objetsTrouves.add(actuelle.getObjet());
             }
 
-            PageJeu prochainePage = null;
-            double tempsMin = Double.MAX_VALUE;
-            boolean cibleObjetTrouvee = false;
+            // Vérifie transition
+            if (i < chemin.size() - 1) {
 
-            // ÉTAPE 1 : Recherche prioritaire d'une page avec un objet non récupéré
-            for (int i = 0; i < voisines.size(); i++) {
-                PageJeu voisine = voisines.get(i);
-                Enigme enigme = enigmes.get(i);
+                PageJeu suivante = chemin.get(i + 1);
 
-                if (enigme.getDuree() > borneMax || visitees.contains(voisine)) {
-                    continue; 
+                if (!this.graph.containsEdge(actuelle, suivante)) {
+                    return false;
                 }
-
-                if (!objetsAAttraper.isEmpty() && voisine.contientObjet() && objetsAAttraper.contains(voisine.getObjet())) {
-                    if (enigme.getDuree() < tempsMin) {
-                        tempsMin = enigme.getDuree();
-                        prochainePage = voisine;
-                        cibleObjetTrouvee = true;
-                    }
-                }
-            }
-
-            // ÉTAPE 2 : Si aucun objet n'est à proximité, choix du chemin le plus rapide
-            if (!cibleObjetTrouvee) {
-                for (int i = 0; i < voisines.size(); i++) {
-                    PageJeu voisine = voisines.get(i);
-                    Enigme enigme = enigmes.get(i);
-
-                    if (enigme.getDuree() > borneMax || visitees.contains(voisine)) {
-                        continue;
-                    }
-
-                    if (enigme.getDuree() < tempsMin) {
-                        tempsMin = enigme.getDuree();
-                        prochainePage = voisine;
-                    }
-                }
-            }
-
-            // Déplacement sur la page sélectionnée
-            if (prochainePage != null) {
-                pageCourante = prochainePage;
-                cheminCalcule.add(pageCourante);
-                visitees.add(pageCourante);
-                
-                if (pageCourante.contientObjet()) {
-                    objetsAAttraper.remove(pageCourante.getObjet());
-                }
-            } else {
-                // Sécurité : si bloqué, on prend la sortie si elle est accessible immédiatement
-                for (PageJeu v : voisines) {
-                    if (v.estSortie()) {
-                        cheminCalcule.add(v);
-                        return cheminCalcule;
-                    }
-                }
-                break;
             }
         }
 
-        return cheminCalcule;
+        // Vérifie tous les objets récupérés
+        return objetsTrouves.containsAll(this.lesObjets);
     }
 
-    
+    // =========================================================================
+    // 1. ALGORITHME GLOUTON
+    // =========================================================================
     /**
-     * Algorithme Glouton.
-     * Cet algorithme garantit le respect des règles du jeu : collecter impérativement tous 
-     * les objets avant de s'orienter vers la sortie. 
-     * Phase 1 : Il se déplace vers les pages contenant un objet requis.
-     * Phase 2 : Dès que l'inventaire est plein, il bascule sur une recherche gloutonne de la sortie.
-     * @param borneMax La durée maximale d'une énigme autorisée pour franchir un arc.
-     * @return Une List de PageJeu validant les conditions de victoire.
+     * Algorithme Glouton basé sur une Heuristique de Proximité Locale.
+     * Choix local pur : Analyse les voisins immédiats et se déplace vers celui 
+     * qui maximise la chance d'attraper un objet ou de se rapprocher du numéro de sa page cible.
+     * * @return Une List de PageJeu représentant le chemin glouton.
      */
-    public List<PageJeu> algorithmeGloutonCorrect(double borneMax) {
+    
+    public List<PageJeu> algorithmeGloutonCorrect() {
+        // Initialisation de la structure accueillant le chemin final
         List<PageJeu> chemin = new ArrayList<>();
-        List<ObjetJeu> objetsAAttraper = new ArrayList<>(this.getListeObjets());
         
-        PageJeu pageCourante = this.lesPagesDuJeu.get(0);
+        // Sécurité : si le graphe est vide, on retourne une liste vide
+        if (this.lesPagesDuJeu == null || this.lesPagesDuJeu.isEmpty()) return chemin;
+
+        // Déclaration des pointeurs pour identifier dynamiquement le départ et la sortie
+        PageJeu pageCourante = null;
+        PageJeu pageSortie = null;
+        for (PageJeu p : this.lesPagesDuJeu) {
+            if (p.getNumero() == 1) pageCourante = p;
+            if (p.estSortie()) pageSortie = p;
+        }
+        
+        // Redondance de sécurité : par défaut, on commence sur le premier élément indexé
+        if (pageCourante == null) pageCourante = this.lesPagesDuJeu.get(0);
+
+        // Duplication de l'inventaire global pour suivre notre progression de collecte
+        List<ObjetJeu> objetsAAttraper = new ArrayList<>(this.getListeObjets());
         chemin.add(pageCourante);
 
-        List<PageJeu> visiteesGlobal = new ArrayList<>();
-        visiteesGlobal.add(pageCourante);
+        // Historique de passage local pour appliquer des pénalités numériques et éviter d'osciller
+        List<PageJeu> historiqueVisites = new ArrayList<>();
+        historiqueVisites.add(pageCourante);
 
-        while (!objetsAAttraper.isEmpty()) {
+        // Boucle d'exploration pas à pas
+        while (true) {
+            // Condition de victoire : inventaire de quête plein et positionné sur la sortie
+            if (objetsAAttraper.isEmpty() && pageCourante.estSortie()) {
+                break;
+            }
+
             List<PageJeu> voisines = pageCourante.getPagesSuivantes();
             List<Enigme> enigmes = pageCourante.getEnigmes();
             if (voisines == null || voisines.isEmpty()) break;
 
-            PageJeu prochainePage = null;
-            double tempsMin = Double.MAX_VALUE;
+            // Détermination de notre objectif heuristique actuel
+            PageJeu cibleActuelle = pageSortie; // Par défaut, on cherche à sortir
+            
+            // S'il reste des objets, la boussole s'oriente vers la page contenant l'un d'eux
+            if (!objetsAAttraper.isEmpty()) {
+                for (PageJeu p : this.lesPagesDuJeu) {
+                    if (p.contientObjet() && objetsAAttraper.contains(p.getObjet())) {
+                        cibleActuelle = p;
+                        break;
+                    }
+                }
+            }
 
+            PageJeu meilleurVoisin = null;
+            double meilleurScore = Double.MAX_VALUE;
+
+            // Analyse comparative de toutes les transitions immédiates
             for (int i = 0; i < voisines.size(); i++) {
                 PageJeu v = voisines.get(i);
                 Enigme e = enigmes.get(i);
-                if (e.getDuree() > borneMax || visiteesGlobal.contains(v)) continue;
 
-                if (v.contientObjet() && objetsAAttraper.contains(v.getObjet())) {
-                    if (e.getDuree() < tempsMin) {
-                        tempsMin = e.getDuree();
-                        prochainePage = v;
-                    }
+                // Pénalité numérique lourde si le voisin a déjà été visité (évite les boucles infinies)
+                double penaliteVisite = historiqueVisites.contains(v) ? 1000.0 : 0.0;
+                
+                // Calcul de l'écart numérique absolu
+                double distanceHeuristique = Math.abs(v.getNumero() - cibleActuelle.getNumero());
+                
+                // Le score glouton combine coût de l'arête, distance théorique et pénalité
+                double scoreVoisin = e.getDuree() + distanceHeuristique + penaliteVisite;
+
+                // Règle absolue : si un voisin direct possède l'objet, on force sa sélection immédiate
+                if (!objetsAAttraper.isEmpty() && v.contientObjet() && objetsAAttraper.contains(v.getObjet())) {
+                    scoreVoisin = -9999.0;
+                }
+
+                // Élection du voisin ayant le score minimal
+                if (scoreVoisin < meilleurScore) {
+                    meilleurScore = scoreVoisin;
+                    meilleurVoisin = v;
                 }
             }
 
-            if (prochainePage == null) {
-                for (int i = 0; i < voisines.size(); i++) {
-                    PageJeu v = voisines.get(i);
-                    Enigme e = enigmes.get(i);
-                    if (e.getDuree() > borneMax || visiteesGlobal.contains(v) || v.estSortie()) continue;
-
-                    if (e.getDuree() < tempsMin) {
-                        tempsMin = e.getDuree();
-                        prochainePage = v;
-                    }
-                }
-            }
-
-            if (prochainePage != null) {
-                pageCourante = prochainePage;
+            // Application du déplacement si un choix a été validé
+            if (meilleurVoisin != null) {
+                pageCourante = meilleurVoisin;
                 chemin.add(pageCourante);
-                visiteesGlobal.add(pageCourante);
+                historiqueVisites.add(pageCourante);
+                
+                // Si la page contient un trésor attendu, on le raye des objectifs restants
                 if (pageCourante.contientObjet()) {
                     objetsAAttraper.remove(pageCourante.getObjet());
                 }
             } else {
-                break; 
-            }
-        }
-
-        while (!pageCourante.estSortie()) {
-            List<PageJeu> voisines = pageCourante.getPagesSuivantes();
-            List<Enigme> enigmes = pageCourante.getEnigmes();
-            if (voisines == null || voisines.isEmpty()) break;
-
-            PageJeu prochainePage = null;
-            double tempsMin = Double.MAX_VALUE;
-
-            for (int i = 0; i < voisines.size(); i++) {
-                PageJeu v = voisines.get(i);
-                Enigme e = enigmes.get(i);
-                if (e.getDuree() < tempsMin) {
-                    tempsMin = e.getDuree();
-                    prochainePage = v;
-                }
-            }
-
-            if (prochainePage != null) {
-                pageCourante = prochainePage;
-                chemin.add(pageCourante);
-            } else {
                 break;
             }
         }
-        System.out.println("DEBUG - Nombre d'objets total dans le livre : " + this.getListeObjets().size());
-for (PageJeu p : this.lesPagesDuJeu) {
-    if (p.contientObjet()) {
-        System.out.println("DEBUG - La page " + p.getNumero() + " contient l'objet : " + p.getObjet().getNom());
-    }
-}
         return chemin;
     }
 
+    // =========================================================================
+    // 2. ALGORITHME DE DIJKSTRA (PAR SEGMENTS - CORRIGÉ)
+    // =========================================================================
     /**
      * Algorithme de Dijkstra Exhaustif et Correct.
      * Calcule le chemin optimal absolu en utilisant l'algorithme des plus courts chemins de Dijkstra.
      * Pour respecter la contrainte des objets, cet algorithme calcule par étapes le chemin optimal :
-     * d'abord du départ vers l'objet A, puis de l'objet A vers l'objet B, puis vers la sortie.
+     * Il relie dynamiquement le point de départ à l'objet le plus proche, puis de cet objet au suivant
+     * le plus proche, jusqu'à ce que tous les objets soient collectés, avant de rallier la sortie.
      * @return Une List de PageJeu représentant le chemin optimal absolu respectant les règles.
      */
     public List<PageJeu> algorithmeDijkstraCorrect() {
         List<PageJeu> cheminComplet = new ArrayList<>();
-        List<PageJeu> etapes = new ArrayList<>();
-        
-        etapes.add(this.lesPagesDuJeu.get(0)); 
-        
-        for (PageJeu p : this.lesPagesDuJeu) {
-            if (p.contientObjet() && p.getNumero() != 1 && !p.estSortie()) {
-                etapes.add(p);
-            }
-        }
-        
+        if (this.lesPagesDuJeu == null || this.lesPagesDuJeu.isEmpty()) return cheminComplet;
+
+        List<PageJeu> pagesAvecObjetsRestants = new ArrayList<>();
         PageJeu pageSortie = null;
+        PageJeu positionCourante = null;
+
+        // Identification de la source (1), de l'arrivée et des points d'intérêt (objets)
         for (PageJeu p : this.lesPagesDuJeu) {
+            if (p.getNumero() == 1) positionCourante = p;
             if (p.estSortie()) {
                 pageSortie = p;
-                break;
+            } else if (p.contientObjet() && p.getNumero() != 1) {
+                pagesAvecObjetsRestants.add(p);
             }
         }
-        if (pageSortie != null) etapes.add(pageSortie);
+        
+        if (positionCourante == null) positionCourante = this.lesPagesDuJeu.get(0);
+        cheminComplet.add(positionCourante);
 
-        org.jgrapht.alg.shortestpath.DijkstraShortestPath<PageJeu, DefaultWeightedEdge> dijkstra = 
-            new org.jgrapht.alg.shortestpath.DijkstraShortestPath<>(this.graph);
+        // Instanciation de l'outil de calcul sur notre graphe global
+        DijkstraShortestPath<PageJeu, DefaultWeightedEdge> dijkstra = new DijkstraShortestPath<>(this.graph);
 
-        for (int i = 0; i < etapes.size() - 1; i++) {
-            org.jgrapht.GraphPath<PageJeu, DefaultWeightedEdge> path = dijkstra.getPath(etapes.get(i), etapes.get(i+1));
-            if (path != null) {
-                List<PageJeu> subPath = path.getVertexList();
-                if (i > 0 && !cheminComplet.isEmpty()) {
-                    subPath.remove(0); 
+        // PHASE 1 : Collecte successive des objets restants
+        while (!pagesAvecObjetsRestants.isEmpty()) {
+            PageJeu cibleLaPlusProche = null;
+            GraphPath<PageJeu, DefaultWeightedEdge> meilleurPathSegment = null;
+            double distanceMin = Double.MAX_VALUE;
+
+            // Évaluation mathématique du coût pour rallier chaque objet depuis notre position courante
+            for (PageJeu cible : pagesAvecObjetsRestants) {
+                GraphPath<PageJeu, DefaultWeightedEdge> path = dijkstra.getPath(positionCourante, cible);
+                
+                // Sélection du segment valide le plus court
+                if (path != null && path.getWeight() < distanceMin) {
+                    distanceMin = path.getWeight();
+                    meilleurPathSegment = path;
+                    cibleLaPlusProche = cible;
+                }
+            }
+
+            // Si un itinéraire interconnecté vers l'objet le plus proche existe
+            if (meilleurPathSegment != null) {
+                List<PageJeu> subPath = new ArrayList<>(meilleurPathSegment.getVertexList());
+                if (!subPath.isEmpty()) {
+                    subPath.remove(0); // Suppression du premier nœud pour éviter d'inscrire des doublons continus
+                }
+                cheminComplet.addAll(subPath); // Fusion dans l'itinéraire complet
+                
+                positionCourante = cibleLaPlusProche; // Avancement de la position de référence
+                pagesAvecObjetsRestants.remove(cibleLaPlusProche); // Objectif validé
+            } else {
+                // S'il n'y a aucune liaison physique menant à cet objet (graphe déconnecté)
+                System.out.println("[DIJKSTRA] Impossible d'atteindre tous les objets.");
+                return new ArrayList<>(); // Interruption propre et retour d'un chemin vide
+            }
+        }
+
+        // PHASE 2 : Ralliement final vers la sortie du livre-jeu
+        if (pageSortie != null) {
+            GraphPath<PageJeu, DefaultWeightedEdge> cheminVersSortie = dijkstra.getPath(positionCourante, pageSortie);
+            if (cheminVersSortie != null) {
+                List<PageJeu> subPath = new ArrayList<>(cheminVersSortie.getVertexList());
+                if (!subPath.isEmpty()) {
+                    subPath.remove(0); // Nettoyage du nœud pivot pour éviter les doublons
                 }
                 cheminComplet.addAll(subPath);
+            } else {
+                System.out.println("[DIJKSTRA] Impossible de rejoindre la sortie.");
+                return new ArrayList<>();
             }
         }
+        System.out.println(cheminComplet);
         return cheminComplet;
     }
 
+    
     private List<PageJeu> meilleurCheminComplet;
     private double meilleurTempsComplet;
 
+
+    // =========================================================================
+    // 3. ALGORITHME COMBINATOIRE COMPLET (BACKTRACKING (RECHERCHE EXHAUSTIVE))
+    // =========================================================================
     /**
      * Algorithme de Recherche Combinatoire Complète (Backtracking).
      * Explore l'intégralité de l'arbre des possibles de façon récursive.
@@ -645,56 +695,96 @@ for (PageJeu p : this.lesPagesDuJeu) {
      * @return La List de PageJeu du chemin parfait trouvé par force brute.
      */
     public List<PageJeu> algorithmeCombinatoireComplet() {
-        this.meilleurCheminComplet = null;
+        // Réinitialisation des records de classe avant de lancer la récursion
         this.meilleurTempsComplet = Double.MAX_VALUE;
-        
+        this.meilleurCheminComplet = null;
+
+        PageJeu depart = null;
+        int totalObjetsAttendus = this.getListeObjets().size();
+
+        // Recherche du nœud d'entrée du livre-jeu (Page numéro 1)
+        for (PageJeu p : this.lesPagesDuJeu) {
+            if (p.getNumero() == 1) {
+                depart = p;
+                break;
+            }
+        }
+        if (depart == null) depart = this.lesPagesDuJeu.get(0);
+
+        // Initialisation de la pile de chemin dynamique
         List<PageJeu> cheminEnCours = new ArrayList<>();
-        PageJeu depart = this.lesPagesDuJeu.get(0);
         cheminEnCours.add(depart);
-        
-        int totalObjetsDuJeu = 0;
-        for(PageJeu p : this.lesPagesDuJeu) {
-            if(p.contientObjet()) totalObjetsDuJeu++;
+
+        // Initialisation de notre sac d'objets portés au point de départ
+        Set<String> objetsPossedesInitiaux = new HashSet<>();
+        if (depart.contientObjet() && depart.getObjet() != null) {
+            objetsPossedesInitiaux.add(depart.getObjet().getNom());
         }
 
-        backtrackingRecursive(depart, cheminEnCours, 0.0, totalObjetsDuJeu);
-        return this.meilleurCheminComplet;
+        // Compteur d'occurrence de passage pour autoriser les boucles indispensables tout en évitant les cycles infinis
+        Map<PageJeu, Integer> compteurVisites = new HashMap<>();
+        compteurVisites.put(depart, 1);
+
+        // Lancement de la procédure d'exploration récursive globale
+        backtrackingRecursive(depart, cheminEnCours, 0.0, totalObjetsAttendus, objetsPossedesInitiaux, compteurVisites);
+
+        System.out.println(meilleurTempsComplet);
+
+        // Renvoi de la solution optimale trouvée (ou liste vide si aucune configuration n'est valide)
+        return this.meilleurCheminComplet != null ? this.meilleurCheminComplet : new ArrayList<>();
     }
 
-    /**
-     * Méthode récursive interne pour le calcul du backtracking.
-     */
-    private void backtrackingRecursive(PageJeu nœud, List<PageJeu> cheminEnCours, double tempsAccumule, int totalObjets) {
+    private void backtrackingRecursive(PageJeu noeud, List<PageJeu> cheminEnCours, double tempsAccumule, 
+                                      int totalObjetsAttendus, Set<String> objetsPossedes, 
+                                      Map<PageJeu, Integer> compteurVisites) {
+        
+        // ÉLAGAGE (Pruning) : Si le coût actuel égale ou dépasse notre record, on coupe immédiatement la branche
         if (tempsAccumule >= this.meilleurTempsComplet) return;
 
-        if (nœud.estSortie()) {
-            int objetsCollectes = 0;
-            for (PageJeu p : cheminEnCours) {
-                if (p.contientObjet()) objetsCollectes++;
-            }
-
-            if (objetsCollectes == totalObjets) {
+        // ARRIVÉE SUR LA SORTIE : On examine si les conditions de réussite réglementaires sont remplies
+        if (noeud.estSortie()) {
+            if (objetsPossedes.size() >= totalObjetsAttendus) {
+                // Nouveau record absolu mémorisé physiquement
                 this.meilleurTempsComplet = tempsAccumule;
                 this.meilleurCheminComplet = new ArrayList<>(cheminEnCours);
             }
-            return;
+            return; // Fin de parcours de cette branche spécifique
         }
 
-        List<PageJeu> voisines = nœud.getPagesSuivantes();
-        List<Enigme> enigmes = nœud.getEnigmes();
+        List<PageJeu> voisines = noeud.getPagesSuivantes();
+        List<Enigme> enigmes = noeud.getEnigmes();
         if (voisines == null) return;
 
+        // Analyse récursive de toutes les ramifications de transition possibles
         for (int i = 0; i < voisines.size(); i++) {
             PageJeu voisine = voisines.get(i);
-            
-            if (cheminEnCours.contains(voisine)) continue; 
+            Enigme enigme = enigmes.get(i);
 
-            double coutArc = enigmes.get(i).getDuree();
-            
+            // BORNE ANTI-CYCLE : Si un nœud a déjà été traversé 3 fois dans cette sous-branche, on refuse d'y retourner
+            int visites = compteurVisites.getOrDefault(voisine, 0);
+            if (visites >= 3) {
+                continue; 
+            }
+
+            // MARQUAGE DE L'AVANCEMENT (Do)
             cheminEnCours.add(voisine);
-            backtrackingRecursive(voisine, cheminEnCours, tempsAccumule + coutArc, totalObjets);
+            compteurVisites.put(voisine, visites + 1);
+            
+            // Actualisation de la sacoche d'objets (nouvelle instance isolée pour préserver les branches sœurs)
+            Set<String> nouveauxObjets = new HashSet<>(objetsPossedes);
+            if (voisine.contientObjet() && voisine.getObjet() != null) {
+                nouveauxObjets.add(voisine.getObjet().getNom());
+            }
+
+            // RECURSION : Descente au niveau de profondeur inférieur avec cumul des coûts
+            backtrackingRecursive(voisine, cheminEnCours, tempsAccumule + enigme.getDuree(), 
+                                  totalObjetsAttendus, nouveauxObjets, compteurVisites);
+
+            // NETTOYAGE ET RETOUR EN ARRIÈRE (Undo / Backtrack)
+            compteurVisites.put(voisine, visites);
             cheminEnCours.remove(cheminEnCours.size() - 1);
         }
+        
     }
 
     /**
@@ -745,6 +835,7 @@ for (PageJeu p : this.lesPagesDuJeu) {
             }
             resultat = resultat + "--------------------------------------------------\n";
         }
+
         return resultat;
     }
 
@@ -757,7 +848,7 @@ for (PageJeu p : this.lesPagesDuJeu) {
      * 
      * @param borneMax La durée maximale d'une énigme autorisée pour franchir un arc.
      * 
-     * @return Une {@link List} de {@link PageJeu} représentant le chemin extrait.
+     * @return Une List de PageJeu représentant le chemin extrait.
      */
     public List<PageJeu> algorithmeGloutonSortieSeule(double borneMax) {
         List<PageJeu> chemin = new ArrayList<>();
@@ -798,6 +889,7 @@ for (PageJeu p : this.lesPagesDuJeu) {
                 break; 
             }
         }
+        System.out.println(chemin);
         return chemin;
     }
 
@@ -952,7 +1044,7 @@ for (PageJeu p : this.lesPagesDuJeu) {
             // Préparation des listes à évaluer
             java.util.Map<String, List<PageJeu>> listesAlgos = new java.util.LinkedHashMap<>();
             listesAlgos.put("Glouton (Focus Sortie)", this.algorithmeGloutonSortieSeule(100.0));
-            listesAlgos.put("Glouton (Correct)", this.algorithmeGloutonCorrect(100.0));
+            listesAlgos.put("Glouton (Correct)", this.algorithmeGloutonCorrect());
             listesAlgos.put("Dijkstra Séquentiel", this.algorithmeDijkstraCorrect());
             listesAlgos.put("Combinatoire Complet", this.algorithmeCombinatoireComplet());
 

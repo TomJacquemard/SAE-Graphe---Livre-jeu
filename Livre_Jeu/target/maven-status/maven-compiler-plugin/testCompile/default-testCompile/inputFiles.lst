@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /home/laura/SAE/SAE-Graphe---Livre-jeu/Livre_Jeu/src/test/java/fr/univ_orleans/iut45/s202/Livre_Jeu/AppTest.java
 /home/laura/SAE/SAE-Graphe---Livre-jeu/Livre_Jeu/src/test/java/fr/univ_orleans/iut45/s202/Livre_Jeu/EnigmeTest.java
 /home/laura/SAE/SAE-Graphe---Livre-jeu/Livre_Jeu/src/test/java/fr/univ_orleans/iut45/s202/Livre_Jeu/PageJeuTest.java
@@ -5,3 +6,13 @@
 /home/laura/SAE/SAE-Graphe---Livre-jeu/Livre_Jeu/src/test/java/fr/univ_orleans/iut45/s202/Livre_Jeu/TestLivreJeu.java
 /home/laura/SAE/SAE-Graphe---Livre-jeu/Livre_Jeu/src/test/java/fr/univ_orleans/iut45/s202/Livre_Jeu/LivreTest.java
 /home/laura/SAE/SAE-Graphe---Livre-jeu/Livre_Jeu/src/test/java/fr/univ_orleans/iut45/s202/Livre_Jeu/PageTest.java
+=======
+C:\Users\Céline\Desktop\SAE-Graphe---Livre-jeu\Livre_Jeu\src\test\java\fr\univ_orleans\iut45\s202\Livre_Jeu\EnigmeTest.java
+C:\Users\Céline\Desktop\SAE-Graphe---Livre-jeu\Livre_Jeu\src\test\java\fr\univ_orleans\iut45\s202\Livre_Jeu\LivreJeuTest.java
+C:\Users\Céline\Desktop\SAE-Graphe---Livre-jeu\Livre_Jeu\src\test\java\fr\univ_orleans\iut45\s202\Livre_Jeu\AppTest.java
+C:\Users\Céline\Desktop\SAE-Graphe---Livre-jeu\Livre_Jeu\src\test\java\fr\univ_orleans\iut45\s202\Livre_Jeu\TestLivreJeu.java
+C:\Users\Céline\Desktop\SAE-Graphe---Livre-jeu\Livre_Jeu\src\test\java\fr\univ_orleans\iut45\s202\Livre_Jeu\LivreTest.java
+C:\Users\Céline\Desktop\SAE-Graphe---Livre-jeu\Livre_Jeu\src\test\java\fr\univ_orleans\iut45\s202\Livre_Jeu\PageTest.java
+C:\Users\Céline\Desktop\SAE-Graphe---Livre-jeu\Livre_Jeu\src\test\java\fr\univ_orleans\iut45\s202\Livre_Jeu\ObjetJeuTest.java
+C:\Users\Céline\Desktop\SAE-Graphe---Livre-jeu\Livre_Jeu\src\test\java\fr\univ_orleans\iut45\s202\Livre_Jeu\PageJeuTest.java
+>>>>>>> devTom
