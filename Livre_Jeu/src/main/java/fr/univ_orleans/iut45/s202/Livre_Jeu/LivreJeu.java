@@ -173,7 +173,9 @@ public class LivreJeu extends Livre {
         
             PageJeu pageEnPlacement = pagesAPlacer.remove(0);
             Collections.shuffle(pagesValides); //mélange de la liste à chaque fois pour plus de hasard sur les arrêtes
-            
+            this.compteurTmpsExec1 += pagesValides.size();//car shuffle est en complexité O(n)
+
+
             int nbPagesChoisies = 1 + random.nextInt(pagesValides.size()); //choisira un nb de pages entre 1 et pagesValide.size() (+1 pour éviter d'obtenir 0)
             //Une page pourrait donc être reliée à toutes les autres déjà placées si on tombe pile sur pagesValides
             List<PageJeu> pagesChoisies = pagesValides.subList(0, nbPagesChoisies);//on sélectionne les pages vers lesquelles la pageEnPlacement va mener
@@ -372,6 +374,7 @@ public class LivreJeu extends Livre {
 
         //Mélange des pages intermédiaires pour la notion de hasard
         Collections.shuffle(pagesDisponibles);
+        this.compteurTmpsExec2 += pagesDisponibles.size();
 
         //Construction du chemin sûr en prenant pour départ la page d'entrée 
         //Commençons avec un chemin de trois pages
