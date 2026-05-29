@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="6" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" time="0.006" errors="0" skipped="0">
+<testsuite tests="6" failures="0" name="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" time="0.389" errors="0" skipped="0">
   <properties>
     <property name="jansi.mode" value="force"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
@@ -58,10 +58,10 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.endian" value="little"/>
   </properties>
-  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="testGetPagesJeu" time="0"/>
+  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="testGetPagesJeu" time="0.019"/>
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="getListObjects" time="0"/>
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="testGetObjetsRecuperes" time="0"/>
   <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="testRecupererObjet" time="0"/>
-  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="generationLivreJeu1" time="0.003"/>
-  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="generationLivreJeu2" time="0.003"/>
+  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="generationLivreJeu1" time="0.365"/>
+  <testcase classname="fr.univ_orleans.iut45.s202.Livre_Jeu.TestLivreJeu" name="generationLivreJeu2" time="0.005"/>
 </testsuite>

@@ -51,6 +51,9 @@ public class LivreJeu extends Livre {
     private List<PageJeu> lesPagesDuJeu;
     private Graph<PageJeu, DefaultWeightedEdge> graph; 
 
+    //compteurs de temps d'executions pour les deux algos de générations
+    private int compteurTmpsExec1;
+    private int compteurTmpsExec2;
 
     /**
      * CONSTRUCTEUR : Initialisation et configuration du livre-jeu.
@@ -67,26 +70,42 @@ public class LivreJeu extends Livre {
         this.lesObjets = new ArrayList<>();
         this.objetsRecuperes = new ArrayList<>();
         this.lesPagesDuJeu = new ArrayList<>();
+
+        //compteurs de temps d'executions pour les deux algos de générations
+        this.compteurTmpsExec1 = 0; //on va incrémenter ces deux compteurs en fonction des étapes de génération pour vérifier les temps d'exécution. 
+        this.compteurTmpsExec2 = 0;
+
+
         this.graph = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
 
         PageJeu pageDeSortie = new PageJeu(nbPages, "Page fin", true);
         PageJeu pageEntree = new PageJeu(1, "Page d'entrée", false);
 
         this.lesPagesDuJeu.add(pageEntree);
-         this.lesPagesDuJeu.add(pageDeSortie);
+        this.lesPagesDuJeu.add(pageDeSortie);
         for (int i = 2; i<nbPages; i++){ //création des pages + objets
+
+            this.compteurTmpsExec1 += 1;
+            this.compteurTmpsExec2 += 1;
+
             this.lesPagesDuJeu.add(new PageJeu(i, "Lorem ipsum", false));
         }
 
         Random random = new Random();
         for(int i = 1; i<=nbObjets;i++){
             ObjetJeu objetCourant = new ObjetJeu("Objet " + i); //création de l'objet que l'on ajoute sur la page
+            
+            this.compteurTmpsExec1 += 1;
+            this.compteurTmpsExec2 += 1;
 
             boolean indiceOk = false;
 
             while(!(indiceOk)){ //tant que je n'ai pas sélectionné une page ne contenant pas déjà un objet...
                 int indiceAleatoire = random.nextInt(lesPagesDuJeu.size());
                 PageJeu pageChoisie = lesPagesDuJeu.get(indiceAleatoire);
+
+                this.compteurTmpsExec1 += 1;
+                this.compteurTmpsExec2 += 1;
 
                 if(!(pageChoisie.contientObjet())){ 
                     pageChoisie.setObjet(objetCourant);
@@ -146,6 +165,9 @@ public class LivreJeu extends Livre {
         // -----------------------------------------------------
 
         while (!(pagesAPlacer.isEmpty())) {  //tant qu'il reste des pages à placer
+            
+            this.compteurTmpsExec1 += 1;
+        
             PageJeu pageEnPlacement = pagesAPlacer.remove(0);
             Collections.shuffle(pagesValides); //mélange de la liste à chaque fois pour plus de hasard sur les arrêtes
             
@@ -154,6 +176,9 @@ public class LivreJeu extends Livre {
             List<PageJeu> pagesChoisies = pagesValides.subList(0, nbPagesChoisies);//on sélectionne les pages vers lesquelles la pageEnPlacement va mener
 
             for (PageJeu p : pagesChoisies) {
+
+                this.compteurTmpsExec1 += 1;
+
                 pageEnPlacement.ajoutePage(p); //on ajoute la page voisine aux pagesSuivantes de pageEnPlacement
                 int dureeEnigme = 1 + random.nextInt(20);//Choix aléatoire de la durée de l'Enigme menant à la page voisine p
                 Enigme e = new Enigme("Lorem Ipsum", dureeEnigme);//création et ajout de l'énigme 
@@ -167,6 +192,9 @@ public class LivreJeu extends Livre {
         List<PageJeu> pagesIsolees = this.pagesSansSource();
         if (pagesIsolees.size() > 1) {  //si il y des pages isolées... >1 car la page d'entrée est pour le moment FORCEMENT isolée + c'est aussi le cas pour la dernière page que l'on a ajouté normalement cette condition est donc toujours vérifiée
             for (PageJeu pIsolee : pagesIsolees) { //on relie la page d'entrée à ces pages isolées
+                
+                this.compteurTmpsExec1 += 1;
+
                 if (!pIsolee.equals(pageEntree)) {
                     pageEntree.ajoutePage(pIsolee);
                     int dureeEnigme = 1 + random.nextInt(20);//Choix aléatoire de la durée de l'Enigme 
@@ -179,6 +207,9 @@ public class LivreJeu extends Livre {
         int nbPagesChoisies = 1 + random.nextInt(Math.min(4, pagesValides.size())); 
         List<PageJeu> pagesChoisies = pagesValides.subList(0, nbPagesChoisies); 
         for (PageJeu p : pagesChoisies) {
+
+            this.compteurTmpsExec1 += 1;
+
             if (!p.equals(pageEntree)) {
                 p.ajoutePage(pageEntree);
                 int dureeEnigme = 1 + random.nextInt(20);
@@ -191,6 +222,9 @@ public class LivreJeu extends Livre {
         nbPagesChoisies = 1 + random.nextInt(Math.min(4, pagesValides.size())); 
         pagesChoisies = pagesValides.subList(0, nbPagesChoisies); 
         for (PageJeu p : pagesChoisies) {
+
+            this.compteurTmpsExec1 += 1;
+
             if (!p.equals(pageDeSortie) && (!pageDeSortie.getPagesSuivantes().contains(p))) { //sécurité mais normalement impossible de retomber sur pageDeSortie PARCONTRE DEUXIEME PARTIE DE LA CONDITION IMPORTANT !!! rare avec les grands graphes mais avec le bloc PRECEDENT on pourrait déjà ajouter pageDeSortie.ajouterPage(PageEntree) - ON NE PEUT PAS AJOUTER DEUX FOIS LA MEME ARETE ORIENTEE donc cela provoquerait une erreur
                 pageDeSortie.ajoutePage(p);
                 int dureeEnigme = 1 + random.nextInt(20);
@@ -210,8 +244,14 @@ public class LivreJeu extends Livre {
         List<PageJeu> pagesSansSource = new ArrayList<>();
         boolean aUneSource = false;
         for (PageJeu pCourante : this.lesPagesDuJeu){
+
+            this.compteurTmpsExec1 += 1;
+
             aUneSource=false;
             for (PageJeu p : this.lesPagesDuJeu) {
+
+                this.compteurTmpsExec1 += 1;
+
                 if (p.getPagesSuivantes().contains(pCourante)){
                         aUneSource=true;
                     }
@@ -228,9 +268,17 @@ public class LivreJeu extends Livre {
         this.graph.addVertex(pageCourante);
         }
         for(PageJeu pageCourante : lesPagesDuJeu){
+
+            this.compteurTmpsExec1 += 1;
+            this.compteurTmpsExec2 += 1;
+
             List<PageJeu> pagesSuivantes = pageCourante.getPagesSuivantes();
             List<Enigme> enigmes = pageCourante.getEnigmes();
             for(int i = 0; i<pagesSuivantes.size(); i ++){
+
+                this.compteurTmpsExec1 += 1;
+                this.compteurTmpsExec2 += 1;
+
                 DefaultWeightedEdge nouvelleEdge = this.graph.addEdge(pageCourante, pagesSuivantes.get(i));
                 if(nouvelleEdge!=null){
                 this.graph.setEdgeWeight(nouvelleEdge,enigmes.get(i).getDuree()); //on attribut le poids a la nouvelle arrete
@@ -330,6 +378,9 @@ public class LivreJeu extends Livre {
         PageJeu pageCourante = pageEntree;
 
         for (int i =0; i< nbPagesIntermediaires; i++) {
+
+            this.compteurTmpsExec2 += 1;
+
             PageJeu pageSuivante = pagesDisponibles.remove(0);
             pageCourante.ajoutePage(pageSuivante); // crée l'arc 
             double duree = 1.0 + (Math.random()*20.0);
@@ -350,6 +401,9 @@ public class LivreJeu extends Livre {
        
         //Boucle pour allonger le chemin sûr 
         while (!pagesDisponibles.isEmpty()) {
+
+            this.compteurTmpsExec2 += 1;
+
             PageJeu pageAllongee = pagesDisponibles.remove(0);
             int indexSource = (int) (Math.random()*(cheminsSurs.size()-1));
             PageJeu pageSource2 = cheminsSurs.get(indexSource);
