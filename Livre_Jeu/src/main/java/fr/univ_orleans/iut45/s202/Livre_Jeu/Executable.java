@@ -39,15 +39,17 @@ public class Executable {
                 }
                 else{
                     System.out.println("Vous avez choisi, l'algorithme de génération numéro : " + numAlgo);
+                    paramValides = true;
                 }
             }
-            catch(NumberFormatException e){
+            catch(Exception e){
                 System.out.println("Veuillez entrer un nombre.");
+                scanner.nextLine();
             }
             } //le numéro de l'algo de génération à été choisi
         
-        System.out.println("\n La génération va débuter, choisissez vos paramètres :");
-        
+        System.out.println("\nLa génération va débuter, choisissez vos paramètres :");
+        scanner.nextLine(); // sinon la saisie utilisateur n'est pas lue a cause du nextInt() précédent
         System.out.println("Titre du livre : ");
         String titreLivre = scanner.nextLine();
         
@@ -61,12 +63,13 @@ public class Executable {
                     if(nbPages>2){
                         paramValides = true;
                     }
-                    else{System.out.println("Il");}
+                    else{System.out.println("Il faut rentrer un nb de pacges >2");}
                 }
                 else{paramValides=true;}
             }
-            catch(NumberFormatException e){
+            catch(Exception e){
                 System.out.println("Veuillez rentrez un nombre. \n");
+                scanner.nextLine();
             }
         }
 
@@ -78,8 +81,9 @@ public class Executable {
                 nbObjets = scanner.nextInt();
                 paramValides = true;
             }
-            catch(NumberFormatException e){
+            catch(Exception e){
                 System.out.println("Veuillez rentrez un nombre. \n");
+                scanner.nextLine();
             }
         }
 
@@ -94,8 +98,8 @@ public class Executable {
 
         boolean generationReussie = false;
         try{
-        System.out.println("\n Génération réussie !");
-        System.out.println("Conversion du livre jeu en pdf...");
+        System.out.println("\nGénération réussie !");
+        System.out.println("Conversion du livre jeu en .dot...");
         DOTExporter<PageJeu,DefaultWeightedEdge> exporter = new DOTExporter<>();
         exporter.setVertexAttributeProvider((x) -> Map.of("label", new DefaultAttribute<>(x, AttributeType.STRING)));
 		exporter.exportGraph(livreJeu.getGraphe(), new FileWriter("graph.dot"));
@@ -109,7 +113,8 @@ public class Executable {
         if(generationReussie){
         System.out.println("Génération du pdf indiquant les solutions...");
         livreJeu.exporterEnPDF();
-        System.out.println("Solutions générées ! Ouvrez les pdf de votre répértoire pour observer le graphe et ses solutions.");
+        System.out.println("Solutions générées ! Exécutez la commande dot -Tpdf graph.dot -o graph.pdf pour convertir le fichier.dot de votre répertoire en pdf !");
+        System.out.println("Vous pourrez ensuite ouvrir les pdf de votre répértoire pour observer le graphe et ses solutions.");
         }
     }
 
