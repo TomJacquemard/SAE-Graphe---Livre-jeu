@@ -218,8 +218,11 @@ public class LivreJeu extends Livre {
         int nbPagesChoisies = 1 + random.nextInt(Math.min(4, pagesValides.size())); 
         List<PageJeu> pagesChoisies = pagesValides.subList(0, nbPagesChoisies); 
         for (PageJeu p : pagesChoisies) {
-            if (!p.equals(pageDeSortie) && (!pageDeSortie.getPagesSuivantes().contains(p))) { //sécurité mais normalement impossible de retomber sur pageDeSortie PARCONTRE DEUXIEME PARTIE DE LA CONDITION IMPORTANT !!! rare avec les grands graphes mais avec le bloc PRECEDENT on pourrait déjà ajouter pageDeSortie.ajouterPage(PageEntree) - ON NE PEUT PAS AJOUTER DEUX FOIS LA MEME ARETE ORIENTEE donc cela provoquerait une erreur
-                pageDeSortie.ajoutePage(p);
+
+            this.compteurTmpsExec1 += 1;
+
+            if (!p.equals(pageEntree)) {
+                p.ajoutePage(pageEntree);
                 int dureeEnigme = 1 + random.nextInt(20);
                 p.ajouteEnigme(new Enigme("Lorem Ipsum", dureeEnigme));
             }

@@ -58,6 +58,8 @@ public class TestLivreJeu {
         assertEquals(0, lj.getObjetsRecuperes().size());
     }
 
+
+@Test
     public void generationLivreJeu1() throws IOException{
         LivreJeu lj = new LivreJeu("titre", 9, "genererLivreJeu_1",1);
         DOTExporter<PageJeu,DefaultWeightedEdge> exporter = new DOTExporter<>();
